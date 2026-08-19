@@ -18,4 +18,163 @@ h1{font-size:clamp(58px,10vw,130px);line-height:.9;letter-spacing:-5px;position:
 footer{border-top:1px solid var(--line);padding:30px;text-align:center;color:#555;font:10px monospace;letter-spacing:2px}
 @keyframes blink{50%{opacity:0}}@keyframes float{from{transform:translateY(105vh)}to{transform:translateY(-10vh)}}
 @media(max-width:800px){.nav{height:60px;padding:0 5%}.menu{display:block}nav{display:none;position:absolute;top:60px;left:0;right:0;background:#080808;border-bottom:1px solid #222;flex-direction:column;padding:20px 6%;gap:20px}nav.open{display:flex}.hero{padding:110px 6% 60px;display:block}.hero-content{margin-bottom:55px}h1{letter-spacing:-3px}.terminal{margin:auto}.section{padding:80px 6%}.grid,.socials{grid-template-columns:1fr}.project{min-height:200px}}
+/* =========================================
+   JOKER RKS // RAINBOW JOKER BACKGROUND
+   Paste at the END of style.css
+   ========================================= */
+
+body {
+  position: relative;
+  overflow-x: hidden;
+  background: #030303 !important;
+}
+
+/* Animated rainbow layer */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -35%;
+  z-index: -3;
+  pointer-events: none;
+
+  background:
+    conic-gradient(
+      from 0deg,
+      #ff004c,
+      #ff7a00,
+      #ffe600,
+      #00ff66,
+      #00eaff,
+      #246bff,
+      #8b35ff,
+      #ff00b7,
+      #ff004c
+    );
+
+  filter: blur(80px);
+  opacity: 0.22;
+  animation: jokerRainbow 18s linear infinite;
+}
+
+/* Dark overlay keeps the site readable */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(0,0,0,0.15),
+      rgba(0,0,0,0.72) 72%
+    );
+}
+
+/* Joker watermark */
+body .particles::after {
+  content: "🃏";
+  position: fixed;
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  font-size: clamp(180px, 32vw, 430px);
+  line-height: 1;
+
+  opacity: 0.075;
+  filter:
+    grayscale(0.15)
+    drop-shadow(0 0 25px rgba(0,255,170,0.35));
+
+  pointer-events: none;
+  z-index: -1;
+
+  animation:
+    jokerFloat 7s ease-in-out infinite,
+    jokerHue 9s linear infinite;
+}
+
+/* Rainbow movement */
+@keyframes jokerRainbow {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(1.15);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+/* Joker slow floating */
+@keyframes jokerFloat {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -53%) scale(1.06);
+  }
+}
+
+/* Joker rainbow color shifting */
+@keyframes jokerHue {
+  0% {
+    filter:
+      grayscale(0.1)
+      hue-rotate(0deg)
+      drop-shadow(0 0 25px rgba(0,255,170,0.35));
+  }
+
+  25% {
+    filter:
+      grayscale(0.1)
+      hue-rotate(90deg)
+      drop-shadow(0 0 30px rgba(0,200,255,0.4));
+  }
+
+  50% {
+    filter:
+      grayscale(0.1)
+      hue-rotate(180deg)
+      drop-shadow(0 0 30px rgba(180,0,255,0.4));
+  }
+
+  75% {
+    filter:
+      grayscale(0.1)
+      hue-rotate(270deg)
+      drop-shadow(0 0 30px rgba(255,0,100,0.4));
+  }
+
+  100% {
+    filter:
+      grayscale(0.1)
+      hue-rotate(360deg)
+      drop-shadow(0 0 25px rgba(0,255,170,0.35));
+  }
+}
+
+/* Keep website content above background */
+header,
+main,
+footer,
+.nav,
+.hero,
+.section {
+  position: relative;
+  z-index: 2;
+}
+
+/* Keep existing particles/scanlines visible */
+.scanlines,
+.particles {
+  pointer-events: none;
+}
          
