@@ -2,113 +2,66 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#050505">
-<title>JOKER RKS // Tools</title>
+<title>JOKER RKS // Utility Zone</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="noise"></div>
-<div id="particles"></div>
+<div class="scanlines"></div><div class="particles" id="particles"></div>
 
-<header class="topbar">
-  <a class="logo" href="#home">JOKER <em>RKS</em></a>
-  <nav id="nav">
-    <a href="#home">HOME</a><a href="#about">ABOUT</a><a href="#projects">PROJECTS</a>
-    <a class="active" href="#tools">TOOLS</a><a href="#contact">CONTACT</a>
-  </nav>
-  <button class="moon" onclick="toggleTheme()" aria-label="Toggle theme">◐</button>
-  <button class="hamb" id="hamb">☰</button>
+<header class="nav">
+<a class="brand" href="#home">JOKER <span>RKS</span></a>
+<button class="menu" id="menuBtn">☰</button>
+<nav id="navLinks"><a href="#home">HOME</a><a href="#about">ABOUT</a><a href="#projects">PROJECTS</a><a href="#tools">TOOLS</a><a href="#contact">CONTACT</a></nav>
 </header>
 
-<div class="layout">
-<aside class="sidebar">
-  <div class="profile">
-    <div class="avatar">J</div>
-    <h2>JOKER <span>RKS</span></h2>
-    <p>System <i>|</i> Code <b>●</b> Dominate</p>
-  </div>
-  <div class="side-title">MENU</div>
-  <a href="#home">⌂ <span>Home</span></a>
-  <a href="#about">◎ <span>About</span></a>
-  <a href="#projects">◇ <span>Projects</span></a>
-  <a class="selected" href="#tools">⌘ <span>Tools</span></a>
-  <a href="#contact">✉ <span>Contact</span></a>
-  <div class="side-title connect-title">CONNECT</div>
-  <a class="social" href="https://t.me/JoKER_RKS_OFFICIAL" target="_blank">✈ <span>Telegram</span></a>
-  <a class="social" href="https://www.instagram.com/effi_laraib_2819/" target="_blank">◎ <span>Instagram</span></a>
-  <a class="social" href="https://github.com/JoKErRKS/JoKER_SIM-D-B" target="_blank">◉ <span>GitHub</span></a>
-  <a class="social" href="https://www.tiktok.com/@aftabjoker2819" target="_blank">♪ <span>TikTok</span></a>
-  <a class="social" href="https://wa.me/923280355660" target="_blank">◉ <span>WhatsApp</span></a>
-  <div class="quote"><small>JOKER_RKS</small><p>I don't follow the system,<br>I build it.</p><i>|</i></div>
-</aside>
-
-<main class="main">
-<section id="home" class="hero">
-  <div>
-    <div class="kicker"><span>01</span> // DIGITAL WORLD</div>
-    <h1>JOKER <strong>RKS</strong></h1>
-    <p class="tagline" id="typing"></p>
-    <p class="lead">Creative projects, browser utilities and future builds — designed in one digital space.</p>
-    <div class="buttons"><a href="#tools" class="btn red">EXPLORE TOOLS</a><a href="#projects" class="btn">VIEW PROJECTS</a></div>
-  </div>
-  <div class="terminal">
-    <div class="term-head"><span></span><span></span><span></span><b>joker@rks:~</b></div>
-    <div class="term-body">
-      <p><i>joker@rks:~$</i> whoami</p><strong>JOKER RKS</strong>
-      <p><i>joker@rks:~$</i> status</p><strong class="online">● ONLINE</strong>
-      <p><i>joker@rks:~$</i> mission</p><strong>BUILD. LEARN. CREATE.</strong>
-      <p><i>joker@rks:~$</i><span class="blink">_</span></p>
-    </div>
-  </div>
-</section>
-
-<section id="about" class="section">
-  <div class="kicker"><span>02</span> // ABOUT</div><h2>THE <strong>JOKER</strong> WORLD</h2>
-  <div class="info-card"><p>JOKER RKS is a personal digital space for creative projects, coding experiments and useful browser-based utilities. The system keeps evolving with every new build.</p></div>
-</section>
-
-<section id="projects" class="section">
-  <div class="kicker"><span>03</span> // PROJECTS</div><h2>MY <strong>PROJECTS</strong></h2>
-  <div class="cards">
-    <article><small>01</small><h3>JOKER RKS WEBSITE</h3><p>The live home for projects, tools and future experiments.</p><label>LIVE</label></article>
-    <article><small>02</small><h3>SIM-D-B</h3><p>My GitHub project repository and development workspace.</p><a href="https://github.com/JoKErRKS/JoKER_SIM-D-B" target="_blank" class="open">OPEN GITHUB →</a></article>
-    <article><small>03</small><h3>TELEGRAM BOT</h3><p>Next build planned for the JOKER RKS ecosystem.</p><label>COMING SOON</label></article>
-  </div>
-</section>
-
-<section id="tools" class="section tools">
-  <div class="kicker"><span>04</span> // UTILITY ZONE</div>
-  <h2>JOKER <strong>TOOLS</strong></h2>
-  <p class="sub">Powerful <b>•</b> Fast <b>•</b> Browser-based <b>•</b> Private</p>
-  <div class="notice">All tools run in your browser. Your input is processed locally except QR generation, which uses an external image service.</div>
-  <div class="tool-cards">
-    <article class="tool-card"><div class="tool-no">01</div><div class="icon">🔐</div><h3>PASSWORD<br>STRENGTH</h3><p>Check the strength of a password.</p><button onclick="openTool('pass')">OPEN TOOL</button></article>
-    <article class="tool-card"><div class="tool-no">02</div><div class="icon">&lt;/&gt;</div><h3>BASE64<br>ENCODER</h3><p>Encode and decode Base64 strings.</p><button onclick="openTool('base')">OPEN TOOL</button></article>
-    <article class="tool-card"><div class="tool-no">03</div><div class="icon">⚿</div><h3>RANDOM PASSWORD<br>GENERATOR</h3><p>Generate strong random passwords.</p><button onclick="openTool('gen')">OPEN TOOL</button></article>
-    <article class="tool-card"><div class="tool-no">04</div><div class="icon qr-mini">▦</div><h3>QR CODE<br>GENERATOR</h3><p>Generate QR codes for text or links.</p><button onclick="openTool('qr')">OPEN TOOL</button></article>
-    <article class="tool-card"><div class="tool-no">05</div><div class="icon">＋</div><h3>DEV<br>CALCULATOR</h3><p>Quick calculations in your browser.</p><button onclick="openTool('calc')">OPEN TOOL</button></article>
-    <article class="tool-card disabled"><div class="tool-no">06</div><div class="icon">›_</div><h3>TEXT<br>UTILITIES</h3><p>More utilities coming soon.</p><button disabled>COMING SOON</button></article>
-  </div>
-  <div class="responsible"><b>USE RESPONSIBLY</b><span>These tools are for educational and legitimate purposes. JOKER RKS is not responsible for misuse.</span></div>
-</section>
-
-<section id="contact" class="section contact">
-  <div class="kicker"><span>05</span> // CONTACT</div><h2>FIND <strong>JOKER RKS</strong></h2>
-  <div class="contact-grid">
-    <a href="https://t.me/JoKER_RKS_OFFICIAL" target="_blank">TELEGRAM <span>@JoKER_RKS_OFFICIAL</span></a>
-    <a href="https://www.instagram.com/effi_laraib_2819/" target="_blank">INSTAGRAM <span>@effi_laraib_2819</span></a>
-    <a href="https://github.com/JoKErRKS/JoKER_SIM-D-B" target="_blank">GITHUB <span>JoKErRKS / SIM-D-B</span></a>
-    <a href="https://www.tiktok.com/@aftabjoker2819" target="_blank">TIKTOK <span>@aftabjoker2819</span></a>
-    <a href="https://wa.me/923280355660" target="_blank">WHATSAPP <span>Message directly</span></a>
-  </div>
-</section>
-</main></div>
-
-<footer><b>JOKER <em>RKS</em></b><span>CODE. BUILD. <i>DOMINATE.</i></span><small>© 2026 JOKER RKS</small></footer>
-
-<div class="modal" id="modal">
- <div class="modal-box"><button class="close" onclick="closeTool()">×</button><div id="toolContent"></div></div>
+<main>
+<section class="hero" id="home">
+<div class="hero-content">
+<p class="eyebrow">SYSTEM ONLINE // JOKER RKS</p>
+<h1 data-text="JOKER RKS">JOKER RKS</h1>
+<p class="typing" id="typing"></p>
+<p class="intro">Welcome to my digital world — projects, experiments and useful browser tools.</p>
+<div class="actions"><a class="btn primary" href="#tools">OPEN TOOLS</a><a class="btn" href="#contact">CONNECT</a></div>
 </div>
+<div class="terminal"><div class="terminal-top"><span></span><span></span><span></span><b>joker@rks:~</b></div>
+<div class="terminal-body">
+<p><span class="prompt">joker@rks:~$</span> whoami</p><p class="out">JOKER RKS</p>
+<p><span class="prompt">joker@rks:~$</span> status</p><p class="out">● ONLINE</p>
+<p><span class="prompt">joker@rks:~$</span> tools</p><p class="out">5 UTILITIES READY</p>
+<p><span class="prompt">joker@rks:~$</span><span class="cursor">_</span></p>
+</div></div>
+</section>
+
+<section class="section" id="about"><p class="eyebrow">01 // ABOUT</p><h2>WELCOME TO <span>MY WORLD</span></h2>
+<div class="card"><p>JOKER RKS is a personal digital space for creative projects, coding experiments and useful browser-based utilities.</p></div></section>
+
+<section class="section" id="projects"><p class="eyebrow">02 // PROJECTS</p><h2>MY <span>PROJECTS</span></h2>
+<div class="grid">
+<article class="project"><div class="number">01</div><h3>JOKER RKS WEBSITE</h3><p>This website — the home for future projects and experiments.</p><span class="tag">LIVE</span></article>
+<article class="project"><div class="number">02</div><h3>SIM-D-B</h3><p>My GitHub project repository.</p><a class="tag linktag" href="https://github.com/JoKErRKS/JoKER_SIM-D-B" target="_blank">GITHUB →</a></article>
+<article class="project"><div class="number">03</div><h3>TELEGRAM BOT</h3><p>A future project planned for the next build.</p><span class="tag">COMING SOON</span></article>
+</div></section>
+
+<section class="section tools-section" id="tools">
+<p class="eyebrow">03 // UTILITY ZONE</p><h2>JOKER <span>TOOLS</span></h2>
+<p class="tools-sub">Choose a tool to open it. Clean, simple and browser-based.</p>
+<div class="tools-menu">
+<button class="tool-card" onclick="openTool('pass')"><span class="tool-icon">🔐</span><span class="tool-num">01</span><strong>PASSWORD STRENGTH</strong><small>Check password strength</small><b>OPEN TOOL →</b></button>
+<button class="tool-card" onclick="openTool('base')"><span class="tool-icon">&lt;/&gt;</span><span class="tool-num">02</span><strong>BASE64 ENCODER</strong><small>Encode or decode text</small><b>OPEN TOOL →</b></button>
+<button class="tool-card" onclick="openTool('gen')"><span class="tool-icon">⚿</span><span class="tool-num">03</span><strong>PASSWORD GENERATOR</strong><small>Generate random passwords</small><b>OPEN TOOL →</b></button>
+<button class="tool-card" onclick="openTool('qr')"><span class="tool-icon">▦</span><span class="tool-num">04</span><strong>QR GENERATOR</strong><small>Create a QR code</small><b>OPEN TOOL →</b></button>
+<button class="tool-card" onclick="openTool('calc')"><span class="tool-icon">＋</span><span class="tool-num">05</span><strong>DEV CALCULATOR</strong><small>Quick browser calculator</small><b>OPEN TOOL →</b></button>
+</div></section>
+<section class="section contact" id="contact"><p class="eyebrow">04 // CONNECT</p><h2>FIND <span>JOKER RKS</span></h2><p class="intro">Choose a platform below to connect.</p>
+<div class="socials">
+<a class="social" href="https://www.instagram.com/effi_laraib_2819/" target="_blank"><b>INSTAGRAM</b><span>@effi_laraib_2819</span></a>
+<a class="social" href="https://t.me/JoKER_RKS_OFFICIAL" target="_blank"><b>TELEGRAM</b><span>@JoKER_RKS_OFFICIAL</span></a>
+<a class="social" href="https://github.com/JoKErRKS/JoKER_SIM-D-B" target="_blank"><b>GITHUB</b><span>JoKErRKS / JoKER_SIM-D-B</span></a>
+<a class="social" href="https://www.tiktok.com/@aftabjoker2819" target="_blank"><b>TIKTOK</b><span>@aftabjoker2819</span></a>
+<a class="social" href="https://wa.me/923280355660" target="_blank"><b>WHATSAPP</b><span>Message on WhatsApp</span></a>
+</div></section>
+</main><div class="tool-modal" id="toolModal"><div class="tool-modal-box"><button class="tool-close" onclick="closeTool()">×</button><div id="toolModalContent"></div></div></div><footer>© 2026 JOKER RKS // ALL SYSTEMS READY</footer>
 <script src="script.js"></script>
 </body></html>
