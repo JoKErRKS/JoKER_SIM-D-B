@@ -1,67 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#050505">
-<title>JOKER RKS // Utility Zone</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="scanlines"></div><div class="particles" id="particles"></div>
-
-<header class="nav">
-<a class="brand" href="#home">JOKER <span>RKS</span></a>
-<button class="menu" id="menuBtn">☰</button>
-<nav id="navLinks"><a href="#home">HOME</a><a href="#about">ABOUT</a><a href="#projects">PROJECTS</a><a href="#tools">TOOLS</a><a href="#contact">CONTACT</a></nav>
-</header>
-
-<main>
-<section class="hero" id="home">
-<div class="hero-content">
-<p class="eyebrow">SYSTEM ONLINE // JOKER RKS</p>
-<h1 data-text="JOKER RKS">JOKER RKS</h1>
-<p class="typing" id="typing"></p>
-<p class="intro">Welcome to my digital world — projects, experiments and useful browser tools.</p>
-<div class="actions"><a class="btn primary" href="#tools">OPEN TOOLS</a><a class="btn" href="#contact">CONNECT</a></div>
-</div>
-<div class="terminal"><div class="terminal-top"><span></span><span></span><span></span><b>joker@rks:~</b></div>
-<div class="terminal-body">
-<p><span class="prompt">joker@rks:~$</span> whoami</p><p class="out">JOKER RKS</p>
-<p><span class="prompt">joker@rks:~$</span> status</p><p class="out">● ONLINE</p>
-<p><span class="prompt">joker@rks:~$</span> tools</p><p class="out">5 UTILITIES READY</p>
-<p><span class="prompt">joker@rks:~$</span><span class="cursor">_</span></p>
-</div></div>
-</section>
-
-<section class="section" id="about"><p class="eyebrow">01 // ABOUT</p><h2>WELCOME TO <span>MY WORLD</span></h2>
-<div class="card"><p>JOKER RKS is a personal digital space for creative projects, coding experiments and useful browser-based utilities.</p></div></section>
-
-<section class="section" id="projects"><p class="eyebrow">02 // PROJECTS</p><h2>MY <span>PROJECTS</span></h2>
-<div class="grid">
-<article class="project"><div class="number">01</div><h3>JOKER RKS WEBSITE</h3><p>This website — the home for future projects and experiments.</p><span class="tag">LIVE</span></article>
-<article class="project"><div class="number">02</div><h3>SIM-D-B</h3><p>My GitHub project repository.</p><a class="tag linktag" href="https://github.com/JoKErRKS/JoKER_SIM-D-B" target="_blank">GITHUB →</a></article>
-<article class="project"><div class="number">03</div><h3>TELEGRAM BOT</h3><p>A future project planned for the next build.</p><span class="tag">COMING SOON</span></article>
-</div></section>
-
-<section class="section tools-section" id="tools">
-<p class="eyebrow">03 // UTILITY ZONE</p><h2>JOKER <span>TOOLS</span></h2>
-<p class="tools-sub">Choose a tool to open it. Clean, simple and browser-based.</p>
-<div class="tools-menu">
-<button class="tool-card" onclick="openTool('pass')"><span class="tool-icon">🔐</span><span class="tool-num">01</span><strong>PASSWORD STRENGTH</strong><small>Check password strength</small><b>OPEN TOOL →</b></button>
-<button class="tool-card" onclick="openTool('base')"><span class="tool-icon">&lt;/&gt;</span><span class="tool-num">02</span><strong>BASE64 ENCODER</strong><small>Encode or decode text</small><b>OPEN TOOL →</b></button>
-<button class="tool-card" onclick="openTool('gen')"><span class="tool-icon">⚿</span><span class="tool-num">03</span><strong>PASSWORD GENERATOR</strong><small>Generate random passwords</small><b>OPEN TOOL →</b></button>
-<button class="tool-card" onclick="openTool('qr')"><span class="tool-icon">▦</span><span class="tool-num">04</span><strong>QR GENERATOR</strong><small>Create a QR code</small><b>OPEN TOOL →</b></button>
-<button class="tool-card" onclick="openTool('calc')"><span class="tool-icon">＋</span><span class="tool-num">05</span><strong>DEV CALCULATOR</strong><small>Quick browser calculator</small><b>OPEN TOOL →</b></button>
-</div></section>
-<section class="section contact" id="contact"><p class="eyebrow">04 // CONNECT</p><h2>FIND <span>JOKER RKS</span></h2><p class="intro">Choose a platform below to connect.</p>
-<div class="socials">
-<a class="social" href="https://www.instagram.com/effi_laraib_2819/" target="_blank"><b>INSTAGRAM</b><span>@effi_laraib_2819</span></a>
-<a class="social" href="https://t.me/JoKER_RKS_OFFICIAL" target="_blank"><b>TELEGRAM</b><span>@JoKER_RKS_OFFICIAL</span></a>
-<a class="social" href="https://github.com/JoKErRKS/JoKER_SIM-D-B" target="_blank"><b>GITHUB</b><span>JoKErRKS / JoKER_SIM-D-B</span></a>
-<a class="social" href="https://www.tiktok.com/@aftabjoker2819" target="_blank"><b>TIKTOK</b><span>@aftabjoker2819</span></a>
-<a class="social" href="https://wa.me/923280355660" target="_blank"><b>WHATSAPP</b><span>Message on WhatsApp</span></a>
-</div></section>
-</main><div class="tool-modal" id="toolModal"><div class="tool-modal-box"><button class="tool-close" onclick="closeTool()">×</button><div id="toolModalContent"></div></div></div><footer>© 2026 JOKER RKS // ALL SYSTEMS READY</footer>
-<script src="script.js"></script>
-</body></html>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#050505;--fg:#f2f2f2;--muted:#999;--line:#252525}
+html{scroll-behavior:smooth}body{background:var(--bg);color:var(--fg);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 30%,#222 0,transparent 38%);opacity:.35;z-index:-2}
+.scanlines{position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(255,255,255,.025) 4px);z-index:20}
+.particles{position:fixed;inset:0;pointer-events:none;z-index:-1}.particle{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:.35;animation:float linear infinite}
+.nav{position:fixed;top:0;left:0;right:0;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 6%;background:rgba(5,5,5,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);z-index:10}
+.brand{color:#fff;text-decoration:none;font-weight:900;letter-spacing:2px;font-size:18px}.brand span{color:#888}nav{display:flex;gap:28px}nav a{color:#aaa;text-decoration:none;font-size:12px;letter-spacing:1.5px;transition:.2s}nav a:hover{color:#fff}.menu{display:none;background:none;border:0;color:#fff;font-size:25px}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:space-between;gap:50px;padding:120px 8% 70px;max-width:1400px;margin:auto}.hero-content{max-width:720px}.eyebrow{color:#777;font-size:11px;letter-spacing:4px;margin-bottom:20px}
+h1{font-size:clamp(58px,10vw,130px);line-height:.9;letter-spacing:-5px;position:relative;text-shadow:2px 0 #fff}h1:after{content:attr(data-text);position:absolute;left:3px;top:0;color:#777;clip-path:inset(55% 0 0 0);transform:skewX(-8deg);opacity:.6}
+.typing{margin-top:28px;font-size:18px;letter-spacing:3px;min-height:24px;color:#ddd}.intro{color:var(--muted);line-height:1.8;max-width:650px;margin:18px 0 30px}.actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;color:#fff;text-decoration:none;border:1px solid #555;padding:14px 22px;font-size:12px;letter-spacing:2px;transition:.25s}.btn:hover{background:#fff;color:#000}.primary{background:#fff;color:#000;border-color:#fff}
+.terminal{width:min(430px,100%);border:1px solid #333;background:#090909;box-shadow:0 0 45px rgba(255,255,255,.06)}.terminal-top{height:38px;border-bottom:1px solid #222;display:flex;align-items:center;gap:6px;padding:0 12px;color:#666;font-size:10px}.terminal-top span{width:8px;height:8px;border:1px solid #777;border-radius:50%}.terminal-top b{margin-left:auto;font-weight:400}.terminal-body{padding:22px;font:12px/2.1 monospace;color:#aaa}.prompt{color:#fff}.out{color:#eee}.cursor{animation:blink 1s steps(1) infinite}
+.section{max-width:1100px;margin:auto;padding:110px 7%}.section h2{font-size:clamp(35px,6vw,70px);letter-spacing:-2px;margin-bottom:30px}.section h2 span{color:#777}
+.card,.project,.tool,.social{border:1px solid var(--line);background:linear-gradient(145deg,#0b0b0b,#070707);padding:30px;transition:.3s}.card:hover,.project:hover,.tool:hover,.social:hover{border-color:#666;transform:translateY(-4px)}.card p{color:#aaa;line-height:1.9}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.project{min-height:230px}.number{font:12px monospace;color:#666;margin-bottom:45px}.project h3,.tool h3{letter-spacing:2px;margin-bottom:15px}.project p,.tool p{color:#888;line-height:1.7;font-size:14px}.tag{display:inline-block;margin-top:20px;border:1px solid #333;padding:6px 9px;font-size:9px;letter-spacing:2px;color:#aaa}.linktag{text-decoration:none}.tool{min-height:170px}.tool b{font:11px monospace;color:#777}
+.contact{text-align:center}.contact .intro{margin-left:auto;margin-right:auto}.socials{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;text-align:left}.social{color:#fff;text-decoration:none}.social b{display:block;font-size:12px;letter-spacing:2px;margin-bottom:9px}.social span{color:#888;font-size:13px}
+footer{border-top:1px solid var(--line);padding:30px;text-align:center;color:#555;font:10px monospace;letter-spacing:2px}
+@keyframes blink{50%{opacity:0}}@keyframes float{from{transform:translateY(105vh)}to{transform:translateY(-10vh)}}
+@media(max-width:800px){.nav{height:60px;padding:0 5%}.menu{display:block}nav{display:none;position:absolute;top:60px;left:0;right:0;background:#080808;border-bottom:1px solid #222;flex-direction:column;padding:20px 6%;gap:20px}nav.open{display:flex}.hero{padding:110px 6% 60px;display:block}.hero-content{margin-bottom:55px}h1{letter-spacing:-3px}.terminal{margin:auto}.section{padding:80px 6%}.grid,.socials{grid-template-columns:1fr}.project{min-height:200px}}
