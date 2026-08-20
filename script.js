@@ -3,62 +3,68 @@ function typeLoop(){const text=phrases[p];typing.textContent=deleting?text.slice
 const menuBtn=document.getElementById("menuBtn"),navLinks=document.getElementById("navLinks");menuBtn.addEventListener("click",()=>navLinks.classList.toggle("open"));document.querySelectorAll("#navLinks a").forEach(a=>a.addEventListener("click",()=>navLinks.classList.remove("open")));
 const particleBox=document.getElementById("particles");for(let n=0;n<45;n++){const el=document.createElement("span");el.className="particle";el.style.left=Math.random()*100+"%";el.style.animationDuration=7+Math.random()*14+"s";el.style.animationDelay=-Math.random()*18+"s";el.style.opacity=.15+Math.random()*.5;particleBox.appendChild(el)}
 /* =================================
-   JOKER RKS // PREMIUM LOADER
+   JOKER RKS // LOADING SCREEN
    ================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
 
-  const loader = document.getElementById("jrLoader");
-  const percent = document.querySelector(".jr-loader-percent");
-  const status = document.querySelector(".jr-loader-status");
+    const loader = document.getElementById("loadingScreen");
+    const progressBar = document.getElementById("loadingProgress");
+    const status = document.getElementById("loadingStatus");
+    const percent = document.getElementById("loadingPercent");
 
-  if (!loader) return;
+    if (!loader) return;
 
-  let progress = 0;
+    let progress = 0;
 
-  const messages = [
-    "INITIALIZING SYSTEM...",
-    "LOADING JOKER RKS...",
-    "CONNECTING DIGITAL WORLD...",
-    "SYSTEM CHECK...",
-    "ALL SYSTEMS READY..."
-  ];
+    const messages = [
+        "CONNECTING TO SYSTEM...",
+        "LOADING JOKER RKS...",
+        "INITIALIZING DIGITAL WORLD...",
+        "CHECKING SYSTEM STATUS...",
+        "JOKER RKS IS LIVE NOW"
+    ];
 
-  const loading = setInterval(function () {
+    const timer = setInterval(function () {
 
-    progress += Math.floor(Math.random() * 8) + 3;
+        progress += Math.floor(Math.random() * 7) + 4;
 
-    if (progress >= 100) {
-      progress = 100;
-    }
+        if (progress >= 100) {
+            progress = 100;
+        }
 
-    if (percent) {
-      percent.textContent = progress + "%";
-    }
+        if (progressBar) {
+            progressBar.style.width = progress + "%";
+        }
 
-    if (status) {
-      const index = Math.min(
-        Math.floor(progress / 25),
-        messages.length - 1
-      );
+        if (percent) {
+            percent.textContent = progress + "%";
+        }
 
-      status.textContent = messages[index];
-    }
+        if (status) {
+            const index = Math.min(
+                Math.floor(progress / 20),
+                messages.length - 1
+            );
 
-    if (progress >= 100) {
+            status.textContent = messages[index];
+        }
 
-      clearInterval(loading);
+        if (progress >= 100) {
 
-      setTimeout(function () {
-        loader.classList.add("hide");
+            clearInterval(timer);
 
-        setTimeout(function () {
-          loader.remove();
-        }, 900);
+            setTimeout(function () {
 
-      }, 700);
-    }
+                loader.classList.add("loaded");
 
-  }, 180);
+                setTimeout(function () {
+                    loader.style.display = "none";
+                }, 900);
+
+            }, 700);
+        }
+
+    }, 180);
 
 });
