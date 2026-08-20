@@ -7,20 +7,35 @@ body:before{content:"";position:fixed;inset:-18%;pointer-events:none;z-index:0;b
 @keyframes rainbowGlow{from{transform:rotate(0deg) scale(1)}to{transform:rotate(360deg) scale(1.08)}}
 .scanlines{position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(255,255,255,.025) 4px);z-index:20}
 .particles{position:fixed;inset:0;pointer-events:none;z-index:1}.particle{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:.35;animation:float linear infinite}
-.particles:after{content:"JOKER\A♠";white-space:pre;position:absolute;left:50%;top:50%;width:clamp(180px,30vw,390px);height:clamp(250px,43vw,540px);transform:translate(-50%,-50%) rotate(-8deg);display:flex;align-items:center;justify-content:center;text-align:center;font-family:Georgia,serif;font-size:clamp(48px,8vw,105px);line-height:.9;color:rgba(255,255,255,.055);border:2px solid rgba(255,255,255,.055);border-radius:18px;background:linear-gradient(135deg,rgba(255,0,85,.10),rgba(0,234,255,.07),rgba(139,53,255,.10),rgba(0,255,102,.07));box-shadow:0 0 55px rgba(0,234,255,.10),inset 0 0 55px rgba(255,0,170,.08);opacity:.9;animation:jokerCard 9s ease-in-out infinite,jokerHue 12s linear infinite}
-@keyframes jokerCard{0%,100%{transform:translate(-50%,-50%) rotate(-8deg) scale(1)}50%{transform:translate(-50%,-53%) rotate(5deg) scale(1.045)}}
-@keyframes jokerHue{0%{filter:hue-rotate(0deg)}25%{filter:hue-rotate(90deg)}50%{filter:hue-rotate(180deg)}75%{filter:hue-rotate(270deg)}100%{filter:hue-rotate(360deg)}}
-.nav{position:fixed;top:0;left:0;right:0;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 6%;background:rgba(5,5,5,.76);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);z-index:10}
-.brand{color:#fff;text-decoration:none;font-weight:900;letter-spacing:2px;font-size:18px}.brand span{color:#888}nav{display:flex;gap:28px}nav a{color:#aaa;text-decoration:none;font-size:12px;letter-spacing:1.5px;transition:.2s}nav a:hover{color:var(--green)}.menu{display:none;background:none;border:0;color:#fff;font-size:25px}
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:space-between;gap:50px;padding:120px 8% 70px;max-width:1400px;margin:auto;position:relative;z-index:3}.hero-content{max-width:720px}.eyebrow{color:#777;font-size:11px;letter-spacing:4px;margin-bottom:20px}
-h1{font-size:clamp(58px,10vw,130px);line-height:.9;letter-spacing:-5px;position:relative;text-shadow:2px 0 var(--cyan)}h1:after{content:attr(data-text);position:absolute;left:3px;top:0;color:var(--pink);clip-path:inset(55% 0 0 0);transform:skewX(-8deg);opacity:.6}
-.typing{margin-top:28px;font-size:18px;letter-spacing:3px;min-height:24px;color:#ddd}.intro{color:var(--muted);line-height:1.8;max-width:650px;margin:18px 0 30px}.actions{display:flex;gap:12px;flex-wrap:wrap}
-.btn{display:inline-block;color:#fff;text-decoration:none;border:1px solid #555;padding:14px 22px;font-size:12px;letter-spacing:2px;transition:.25s}.btn:hover{background:var(--green);color:#000;border-color:var(--green)}.primary{background:#fff;color:#000;border-color:#fff}
-.terminal{width:min(430px,100%);border:1px solid #333;background:rgba(9,9,9,.82);box-shadow:0 0 45px rgba(0,234,255,.10),0 0 70px rgba(255,0,170,.06)}.terminal-top{height:38px;border-bottom:1px solid #222;display:flex;align-items:center;gap:6px;padding:0 12px;color:#666;font-size:10px}.terminal-top span{width:8px;height:8px;border:1px solid #777;border-radius:50%}.terminal-top b{margin-left:auto;font-weight:400}.terminal-body{padding:22px;font:12px/2.1 monospace;color:#aaa}.prompt{color:var(--green)}.out{color:#eee}.out.ok{color:var(--green)}.cursor{animation:blink 1s steps(1) infinite}
-.section{max-width:1100px;margin:auto;padding:110px 7%;position:relative;z-index:3}.section h2{font-size:clamp(35px,6vw,70px);letter-spacing:-2px;margin-bottom:30px}.section h2 span{color:#777}
-.card,.project,.tool,.social{border:1px solid var(--line);background:linear-gradient(145deg,rgba(11,11,11,.88),rgba(7,7,7,.82));padding:30px;transition:.3s}.card:hover,.project:hover,.tool:hover,.social:hover{border-color:var(--green);transform:translateY(-4px);box-shadow:0 0 25px rgba(0,255,157,.08)}.card p{color:#aaa;line-height:1.9}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.project{min-height:230px}.number{font:12px monospace;color:#666;margin-bottom:45px}.project h3,.tool h3{letter-spacing:2px;margin-bottom:15px}.project p,.tool p{color:#888;line-height:1.7;font-size:14px}.tag{display:inline-block;margin-top:20px;border:1px solid #333;padding:6px 9px;font-size:9px;letter-spacing:2px;color:#aaa}.linktag{text-decoration:none}.tool{min-height:170px}.tool b{font:11px monospace;color:#777}
-.contact{text-align:center}.contact .intro{margin-left:auto;margin-right:auto}.socials{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;text-align:left}.social{color:#fff;text-decoration:none}.social b{display:block;font-size:12px;letter-spacing:2px;margin-bottom:9px}.social span{color:#888;font-size:13px}
-footer{position:relative;z-index:3;border-top:1px solid var(--line);padding:30px;text-align:center;color:#555;font:10px monospace;letter-spacing:2px}
-@keyframes blink{50%{opacity:0}}@keyframes float{from{transform:translateY(105vh)}to{transform:translateY(-10vh)}}
+.particles:after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:clamp(190px,32vw,420px);
+  height:clamp(280px,48vw,590px);
+  transform:translate(-50%,-50%);
+  background-image:url("JoKER.png");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  border-radius:18px;
+  opacity:.13;
+  mix-blend-mode:screen;
+  filter:saturate(.85) contrast(1.08) drop-shadow(0 0 28px rgba(0,234,255,.18));
+  box-shadow:0 0 55px rgba(0,234,255,.08);
+  animation:jokerImageFloat 9s ease-in-out infinite, jokerImageHue 14s linear infinite;
+}
+@keyframes jokerImageFloat{
+  0%,100%{transform:translate(-50%,-50%) scale(1) rotate(-2deg)}
+  50%{transform:translate(-50%,-53%) scale(1.035) rotate(2deg)}
+}
+@keyframes jokerImageHue{
+  0%{filter:saturate(.85) contrast(1.08) hue-rotate(0deg) drop-shadow(0 0 28px rgba(0,234,255,.18))}
+  25%{filter:saturate(.95) contrast(1.08) hue-rotate(90deg) drop-shadow(0 0 28px rgba(0,255,157,.18))}
+  50%{filter:saturate(.9) contrast(1.08) hue-rotate(180deg) drop-shadow(0 0 28px rgba(155,92,255,.18))}
+  75%{filter:saturate(.95) contrast(1.08) hue-rotate(270deg) drop-shadow(0 0 28px rgba(255,45,168,.18))}
+  100%{filter:saturate(.85) contrast(1.08) hue-rotate(360deg) drop-shadow(0 0 28px rgba(0,234,255,.18))}
+}
+
 @media(max-width:800px){.nav{height:60px;padding:0 5%}.menu{display:block}nav{display:none;position:absolute;top:60px;left:0;right:0;background:#080808;border-bottom:1px solid #222;flex-direction:column;padding:20px 6%;gap:20px}nav.open{display:flex}.hero{padding:110px 6% 60px;display:block}.hero-content{margin-bottom:55px}h1{letter-spacing:-3px}.terminal{margin:auto}.section{padding:80px 6%}.grid,.socials{grid-template-columns:1fr}.project{min-height:200px}}
