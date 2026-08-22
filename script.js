@@ -3,7 +3,7 @@ function typeLoop(){const text=phrases[p];typing.textContent=deleting?text.slice
 const menuBtn=document.getElementById("menuBtn"),navLinks=document.getElementById("navLinks");menuBtn.addEventListener("click",()=>navLinks.classList.toggle("open"));document.querySelectorAll("#navLinks a").forEach(a=>a.addEventListener("click",()=>navLinks.classList.remove("open")));
 const particleBox=document.getElementById("particles");for(let n=0;n<45;n++){const el=document.createElement("span");el.className="particle";el.style.left=Math.random()*100+"%";el.style.animationDuration=7+Math.random()*14+"s";el.style.animationDelay=-Math.random()*18+"s";el.style.opacity=.15+Math.random()*.5;particleBox.appendChild(el)}
 /* =================================
-   JOKER RKS // LOADING SCREEN
+   JOKER RKS // PREMIUM LOADING SCREEN
    ================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const progressBar = document.getElementById("loadingProgress");
     const status = document.getElementById("loadingStatus");
     const percent = document.getElementById("loadingPercent");
+    const music = document.getElementById("welcomeMusic");
 
     if (!loader) return;
 
@@ -54,6 +55,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
             clearInterval(timer);
 
+            /*
+             * Final welcome message
+             */
+            if (status) {
+                status.textContent =
+                    "WELCOME TO MY DIGITAL WORLD";
+            }
+
+            /*
+             * Start music at low volume
+             */
+            if (music) {
+                music.volume = 0.12;
+
+                music.currentTime = 0;
+
+                music.play().catch(function () {
+                    // Mobile browsers may block autoplay.
+                    // Start after first user interaction.
+                    const startMusic = function () {
+                        music.play().catch(function () {});
+                        document.removeEventListener(
+                            "click",
+                            startMusic
+                        );
+                        document.removeEventListener(
+                            "touchstart",
+                            startMusic
+                        );
+                    };
+
+                    document.addEventListener(
+                        "click",
+                        startMusic,
+                        { once: true }
+                    );
+
+                    document.addEventListener(
+                        "touchstart",
+                        startMusic,
+                        { once: true }
+                    );
+                });
+            }
+
+            /*
+             * Keep welcome message visible briefly
+             */
             setTimeout(function () {
 
                 loader.classList.add("loaded");
@@ -62,66 +111,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     loader.style.display = "none";
                 }, 900);
 
-            }, 700);
+            }, 1600);
         }
 
     }, 180);
-
-});
-// JOKER RKS // Welcome Music
-document.addEventListener("DOMContentLoaded", function () {
-
-  const music = document.getElementById("welcomeMusic");
-  const loadingScreen = document.getElementById("loadingScreen");
-
-  if (!music) return;
-
-  music.volume = 0.12;
-
-  function startWelcomeMusic() {
-    music.currentTime = 0;
-
-    const playPromise = music.play();
-
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // Browser autoplay blocked.
-        // Start music after user's first tap.
-        const start = () => {
-          music.play().catch(() => {});
-          document.removeEventListener("click", start);
-          document.removeEventListener("touchstart", start);
-        };
-
-        document.addEventListener("click", start, { once: true });
-        document.addEventListener("touchstart", start, { once: true });
-      });
-    }
-  }
-
-  if (loadingScreen) {
-
-    const observer = new MutationObserver(() => {
-
-      if (!loadingScreen.classList.contains("show") &&
-          getComputedStyle(loadingScreen).display === "none") {
-
-        startWelcomeMusic();
-        observer.disconnect();
-      }
-
-    });
-
-    observer.observe(loadingScreen, {
-      attributes: true,
-      attributeFilter: ["class", "style"]
-    });
-
-    // Fallback
-    setTimeout(startWelcomeMusic, 5000);
-
-  } else {
-    startWelcomeMusic();
-  }
 
 });
