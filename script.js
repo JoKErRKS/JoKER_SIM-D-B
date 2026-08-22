@@ -68,3 +68,60 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 180);
 
 });
+// JOKER RKS // Welcome Music
+document.addEventListener("DOMContentLoaded", function () {
+
+  const music = document.getElementById("welcomeMusic");
+  const loadingScreen = document.getElementById("loadingScreen");
+
+  if (!music) return;
+
+  music.volume = 0.12;
+
+  function startWelcomeMusic() {
+    music.currentTime = 0;
+
+    const playPromise = music.play();
+
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Browser autoplay blocked.
+        // Start music after user's first tap.
+        const start = () => {
+          music.play().catch(() => {});
+          document.removeEventListener("click", start);
+          document.removeEventListener("touchstart", start);
+        };
+
+        document.addEventListener("click", start, { once: true });
+        document.addEventListener("touchstart", start, { once: true });
+      });
+    }
+  }
+
+  if (loadingScreen) {
+
+    const observer = new MutationObserver(() => {
+
+      if (!loadingScreen.classList.contains("show") &&
+          getComputedStyle(loadingScreen).display === "none") {
+
+        startWelcomeMusic();
+        observer.disconnect();
+      }
+
+    });
+
+    observer.observe(loadingScreen, {
+      attributes: true,
+      attributeFilter: ["class", "style"]
+    });
+
+    // Fallback
+    setTimeout(startWelcomeMusic, 5000);
+
+  } else {
+    startWelcomeMusic();
+  }
+
+});
