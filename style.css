@@ -940,3 +940,72 @@ footer{
   }
 
     }
+/* JOKER RKS // PREMIUM WELCOME TEXT */
+
+.loading-eyebrow {
+  animation: welcomeBlink 1.2s infinite;
+}
+
+.loading-content h1 {
+  animation: welcomeGlitch 2.5s infinite;
+}
+
+.live-text {
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+
+.loading-status {
+  animation: statusFade 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes welcomeBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .35;
+  }
+}
+
+@keyframes welcomeGlitch {
+  0%, 88%, 100% {
+    transform: translateX(0);
+    text-shadow:
+      0 0 10px rgba(0,234,255,.6),
+      0 0 25px rgba(255,0,85,.35);
+  }
+
+  90% {
+    transform: translateX(-3px);
+  }
+
+  92% {
+    transform: translateX(3px);
+  }
+
+  94% {
+    transform: translateX(-1px);
+  }
+}
+
+@keyframes livePulse {
+  0%, 100% {
+    opacity: .7;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes statusFade {
+  from {
+    opacity: .45;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
