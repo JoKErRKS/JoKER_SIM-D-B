@@ -2,40 +2,50 @@
    JOKER RKS // MAIN SCRIPT
    ================================= */
 
-/* ---------- TYPING EFFECT ---------- */
+
+/* =================================
+   TYPING EFFECT
+   ================================= */
 
 const typing = document.getElementById("typing");
 
 if (typing) {
+
     const phrases = [
         "DIGITAL CREATOR",
         "CODE • BUILD • CREATE",
         "WELCOME TO THE SYSTEM"
     ];
 
-    let p = 0;
-    let i = 0;
+    let phraseIndex = 0;
+    let charIndex = 0;
     let deleting = false;
 
     function typeLoop() {
-        const text = phrases[p];
+
+        const text = phrases[phraseIndex];
 
         if (deleting) {
-            i--;
-            typing.textContent = text.slice(0, i);
+            charIndex--;
         } else {
-            i++;
-            typing.textContent = text.slice(0, i);
+            charIndex++;
         }
+
+        typing.textContent = text.slice(0, charIndex);
 
         let speed = deleting ? 45 : 85;
 
-        if (!deleting && i === text.length) {
+        if (!deleting && charIndex >= text.length) {
+
             deleting = true;
             speed = 1400;
-        } else if (deleting && i === 0) {
+
+        } else if (deleting && charIndex <= 0) {
+
             deleting = false;
-            p = (p + 1) % phrases.length;
+            phraseIndex =
+                (phraseIndex + 1) % phrases.length;
+
             speed = 350;
         }
 
@@ -46,220 +56,337 @@ if (typing) {
 }
 
 
-/* ---------- MOBILE MENU ---------- */
+/* =================================
+   MOBILE MENU
+   ================================= */
 
-const menuBtn = document.getElementById("menuBtn");
-const navLinks = document.getElementById("navLinks");
+const menuBtn =
+    document.getElementById("menuBtn");
+
+const navLinks =
+    document.getElementById("navLinks");
 
 if (menuBtn && navLinks) {
 
     menuBtn.addEventListener("click", function () {
+
         navLinks.classList.toggle("open");
+
     });
 
-    document.querySelectorAll("#navLinks a").forEach(function (a) {
-        a.addEventListener("click", function () {
-            navLinks.classList.remove("open");
+
+    document
+        .querySelectorAll("#navLinks a")
+        .forEach(function (link) {
+
+            link.addEventListener("click", function () {
+
+                navLinks.classList.remove("open");
+
+            });
+
         });
-    });
-
 }
 
 
-/* ---------- PARTICLES ---------- */
+/* =================================
+   PARTICLES
+   ================================= */
 
-const particleBox = document.getElementById("particles");
+const particleBox =
+    document.getElementById("particles");
 
 if (particleBox) {
 
     for (let n = 0; n < 45; n++) {
 
-        const el = document.createElement("span");
+        const particle =
+            document.createElement("span");
 
-        el.className = "particle";
+        particle.className = "particle";
 
-        el.style.left =
+        particle.style.left =
             Math.random() * 100 + "%";
 
-        el.style.animationDuration =
+        particle.style.animationDuration =
             7 + Math.random() * 14 + "s";
 
-        el.style.animationDelay =
+        particle.style.animationDelay =
             -Math.random() * 18 + "s";
 
-        el.style.opacity =
+        particle.style.opacity =
             0.15 + Math.random() * 0.5;
 
-        particleBox.appendChild(el);
+        particleBox.appendChild(particle);
     }
-
 }
 
 
 /* =================================
-   JOKER RKS // PREMIUM LOADING
+   JOKER RKS // SAFE PREMIUM LOADER
    ================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+(function () {
 
-    const loader =
-        document.getElementById("loadingScreen");
+    function startLoader() {
 
-    const progressBar =
-        document.getElementById("loadingProgress");
+        const loader =
+            document.getElementById("loadingScreen");
 
-    const status =
-        document.getElementById("loadingStatus");
+        const progressBar =
+            document.getElementById("loadingProgress");
 
-    const percent =
-        document.getElementById("loadingPercent");
+        const status =
+            document.getElementById("loadingStatus");
 
-    const music =
-        document.getElementById("welcomeMusic");
+        const percent =
+            document.getElementById("loadingPercent");
 
-
-    /* Loading screen doesn't exist */
-    if (!loader) return;
+        const music =
+            document.getElementById("welcomeMusic");
 
 
-    let progress = 0;
-
-
-    const messages = [
-        "CONNECTING TO SYSTEM...",
-        "LOADING JOKER RKS...",
-        "INITIALIZING DIGITAL WORLD...",
-        "CHECKING SYSTEM STATUS...",
-        "JOKER RKS IS LIVE NOW"
-    ];
-
-
-    const timer = setInterval(function () {
-
-        progress +=
-            Math.floor(Math.random() * 7) + 4;
-
-
-        if (progress >= 100) {
-            progress = 100;
+        /* No loader = nothing to do */
+        if (!loader) {
+            return;
         }
 
 
-        /* Progress bar */
+        /* Prevent background scrolling */
+        document.documentElement.style.overflowY =
+            "hidden";
 
-        if (progressBar) {
-            progressBar.style.width =
-                progress + "%";
-        }
-
-
-        /* Percentage */
-
-        if (percent) {
-            percent.textContent =
-                progress + "%";
-        }
+        document.body.style.overflowY =
+            "hidden";
 
 
-        /* Status text */
-
-        if (status) {
-
-            const index =
-                Math.min(
-                    Math.floor(progress / 20),
-                    messages.length - 1
-                );
-
-            status.textContent =
-                messages[index];
-        }
+        let progress = 0;
+        let finished = false;
 
 
-        /* ---------- LOADING COMPLETE ---------- */
+        const messages = [
+            "CONNECTING TO SYSTEM...",
+            "LOADING JOKER RKS...",
+            "INITIALIZING DIGITAL WORLD...",
+            "CHECKING SYSTEM STATUS...",
+            "JOKER RKS IS LIVE NOW"
+        ];
 
-        if (progress >= 100) {
 
-            clearInterval(timer);
+        function finishLoader() {
+
+            if (finished) {
+                return;
+            }
+
+            finished = true;
 
 
-            /* Welcome message */
+            /* Stop progress */
+            if (timer) {
+                clearInterval(timer);
+            }
 
+
+            /* Final message */
             if (status) {
                 status.textContent =
                     "WELCOME TO MY DIGITAL WORLD";
             }
 
+            if (progressBar) {
+                progressBar.style.width = "100%";
+            }
 
-            /* ---------- MUSIC ---------- */
+            if (percent) {
+                percent.textContent = "100%";
+            }
+
+
+            /* Try music.
+               It NEVER blocks the loader. */
 
             if (music) {
 
-                music.volume = 0.12;
+                try {
 
-                music.currentTime = 0;
+                    music.volume = 0.12;
+                    music.currentTime = 0;
 
+                    const playPromise =
+                        music.play();
 
-                music.play().catch(function () {
+                    if (
+                        playPromise &&
+                        typeof playPromise.catch === "function"
+                    ) {
 
-                    /*
-                     Mobile browser autoplay protection.
-                     Music starts after user touches/clicks.
-                    */
+                        playPromise.catch(function () {
 
-                    function startMusic() {
+                            /* Browser autoplay protection */
 
-                        music.volume = 0.12;
+                            const startMusic =
+                                function () {
 
-                        music.play().catch(function () {});
+                                    try {
 
-                        document.removeEventListener(
-                            "click",
-                            startMusic
-                        );
+                                        music.volume = 0.12;
 
-                        document.removeEventListener(
-                            "touchstart",
-                            startMusic
-                        );
+                                        music.play()
+                                            .catch(function () {});
+
+                                    } catch (e) {}
+
+                                };
+
+                            document.addEventListener(
+                                "click",
+                                startMusic,
+                                {
+                                    once: true
+                                }
+                            );
+
+                            document.addEventListener(
+                                "touchstart",
+                                startMusic,
+                                {
+                                    once: true
+                                }
+                            );
+
+                        });
                     }
 
-
-                    document.addEventListener(
-                        "click",
-                        startMusic,
-                        { once: true }
-                    );
-
-                    document.addEventListener(
-                        "touchstart",
-                        startMusic,
-                        { once: true }
-                    );
-
-                });
+                } catch (e) {}
 
             }
 
 
-            /* ---------- REMOVE LOADING SCREEN ---------- */
+            /* Fade loader out */
 
             setTimeout(function () {
 
                 loader.classList.add("loaded");
 
+            }, 700);
 
-                setTimeout(function () {
 
-                    loader.style.display =
-                        "none";
+            /* Completely remove loader */
 
-                }, 900);
+            setTimeout(function () {
 
-            }, 1600);
+                loader.style.display = "none";
+
+                document.documentElement.style
+                    .overflowY = "";
+
+                document.body.style
+                    .overflowY = "";
+
+            }, 1700);
 
         }
 
-    }, 180);
 
-});
+        /* Progress animation */
+
+        const timer =
+            setInterval(function () {
+
+                progress +=
+                    Math.floor(
+                        Math.random() * 8
+                    ) + 5;
+
+
+                if (progress >= 100) {
+                    progress = 100;
+                }
+
+
+                if (progressBar) {
+
+                    progressBar.style.width =
+                        progress + "%";
+
+                }
+
+
+                if (percent) {
+
+                    percent.textContent =
+                        progress + "%";
+
+                }
+
+
+                if (status) {
+
+                    const index =
+                        Math.min(
+                            Math.floor(
+                                progress / 20
+                            ),
+                            messages.length - 1
+                        );
+
+                    status.textContent =
+                        messages[index];
+
+                }
+
+
+                if (progress >= 100) {
+
+                    finishLoader();
+
+                }
+
+            }, 180);
+
+
+        /* =================================
+           FAILSAFE
+           If anything goes wrong, loader
+           disappears automatically.
+           ================================= */
+
+        setTimeout(function () {
+
+            if (!finished) {
+
+                progress = 100;
+
+                finishLoader();
+
+            }
+
+        }, 7000);
+
+    }
+
+
+    /* Script is already loaded at the bottom
+       of body, but this also works safely
+       if browser timing changes. */
+
+    if (
+        document.readyState === "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            startLoader,
+            {
+                once: true
+            }
+        );
+
+    } else {
+
+        startLoader();
+
+    }
+
+})();
