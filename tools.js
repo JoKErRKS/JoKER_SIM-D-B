@@ -1155,4 +1155,823 @@
 
           <button
             class="jr-action alt"
-        
+      id="clearQR">
+            CLEAR
+          </button>
+
+        </div>
+
+        <div class="jr-qr" id="qrOut"></div>
+
+      `;
+
+
+      content.querySelector("#makeQR").onclick = function () {
+
+        const value = content
+          .querySelector("#qrInput")
+          .value
+          .trim();
+
+        const output = content.querySelector("#qrOut");
+
+        if (!value) {
+
+          output.textContent =
+            "ENTER TEXT OR LINK FIRST.";
+
+          return;
+
+        }
+
+        output.innerHTML = `
+          <img
+            alt="Generated QR code"
+            src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(value)}"
+          >
+          <div class="jr-actions" style="justify-content:center">
+            <button class="jr-action alt" id="qrCopy">
+              COPY SOURCE
+            </button>
+          </div>
+        `;
+
+
+        const copyButton =
+          output.querySelector("#qrCopy");
+
+        if (copyButton) {
+
+          copyButton.onclick = function () {
+
+            copyText(value, copyButton);
+
+            copyButton.textContent = "COPIED ✓";
+
+          };
+
+        }
+
+      };
+
+
+      content.querySelector("#clearQR").onclick = function () {
+
+        content.querySelector("#qrInput").value = "";
+        content.querySelector("#qrOut").innerHTML = "";
+         };
+
+    }
+
+
+    /* =======================================
+       DEV LAB
+       ======================================= */
+
+    if (type === "dev") {
+
+      content.innerHTML = `
+
+        <h3>03 // DEV LAB</h3>
+
+        <p>
+          JSON formatter and Base64 developer utilities.
+        </p>
+
+        <textarea
+          id="devInput"
+          placeholder='Paste JSON or text here...'
+        ></textarea>
+
+        <div class="jr-actions">
+
+          <button class="jr-action" id="json">
+            FORMAT JSON
+          </button>
+
+          <button class="jr-action" id="enc">
+            BASE64 ENCODE
+          </button>
+
+          <button class="jr-action" id="dec">
+            BASE64 DECODE
+          </button>
+
+          <button class="jr-action alt" id="copyDev">
+            COPY RESULT
+          </button>
+
+        </div>
+
+        <div class="jr-result" id="devOut">
+          RESULT...
+        </div>
+
+      `;
+
+
+      const input =
+        content.querySelector("#devInput");
+
+      const output =
+        content.querySelector("#devOut");
+
+
+      content.querySelector("#json").onclick = function () {
+
+        try {
+
+          output.textContent =
+            JSON.stringify(
+              JSON.parse(input.value),
+              null,
+              2
+            );
+
+        } catch (error) {
+
+          output.textContent = "INVALID JSON.";
+
+        }
+
+      };
+
+
+      content.querySelector("#enc").onclick = function () {
+
+        try {
+
+          output.textContent =
+            btoa(
+              unescape(
+                encodeURIComponent(input.value)
+              )
+            );
+
+        } catch (error) {
+
+          output.textContent =
+            "COULD NOT ENCODE.";
+
+        }
+
+      };
+
+
+      content.querySelector("#dec").onclick = function () {
+
+        try {
+
+          output.textContent =
+            decodeURIComponent(
+              escape(
+                atob(input.value)
+              )
+            );
+
+        } catch (error) {
+
+          output.textContent =
+            "INVALID BASE64.";
+
+        }
+
+      };
+
+
+      content.querySelector("#copyDev").onclick = function () {
+
+        copyText(output.textContent);
+
+      };
+}
+
+
+    /* =======================================
+       URL LAB
+       ======================================= */
+
+    if (type === "url") {
+
+      content.innerHTML = `
+
+        <h3>04 // URL LAB</h3>
+
+        <p>
+          Encode, decode and inspect URL text.
+        </p>
+
+        <input
+          id="urlInput"
+          placeholder="https://example.com/hello world"
+        >
+
+        <div class="jr-actions">
+
+          <button class="jr-action" id="urlEncode">
+            ENCODE
+          </button>
+
+          <button class="jr-action" id="urlDecode">
+            DECODE
+          </button>
+
+          <button class="jr-action alt" id="urlCopy">
+            COPY RESULT
+          </button>
+
+        </div>
+
+        <div class="jr-result" id="urlOut">
+          RESULT...
+        </div>
+
+      `;
+
+
+      const input =
+        content.querySelector("#urlInput");
+
+      const output =
+        content.querySelector("#urlOut");
+
+
+      content.querySelector("#urlEncode").onclick =
+        function () {
+
+          try {
+
+            output.textContent =
+              encodeURIComponent(input.value);
+
+          } catch (error) {
+
+            output.textContent =
+              "COULD NOT ENCODE.";
+
+          }
+
+        };
+
+
+      content.querySelector("#urlDecode").onclick =
+        function () {
+
+          try {
+
+            output.textContent =
+              decodeURIComponent(input.value);
+
+          } catch (error) {
+
+            output.textContent =
+              "INVALID URL ENCODING.";
+
+          }
+
+        };
+
+
+      content.querySelector("#urlCopy").onclick =
+        function () {
+
+          copyText(output.textContent);
+
+           
+        };
+
+    }
+
+
+    /* =======================================
+       TIME LAB
+       ======================================= */
+
+    if (type === "time") {
+
+      content.innerHTML = `
+
+        <h3>05 // TIME LAB</h3>
+
+        <p>
+          Generate the current Unix timestamp or convert one.
+        </p>
+
+        <div class="jr-result" id="currentUnix">
+          Loading...
+        </div>
+
+        <div class="jr-actions">
+
+          <button class="jr-action" id="refreshUnix">
+            CURRENT TIMESTAMP
+          </button>
+
+          <button class="jr-action alt" id="copyUnix">
+            COPY
+          </button>
+
+        </div>
+
+        <input
+          id="timestampInput"
+          placeholder="Enter Unix timestamp..."
+        >
+
+        <div class="jr-actions">
+
+          <button class="jr-action" id="convertUnix">
+            CONVERT TO DATE
+          </button>
+
+        </div>
+
+        <div class="jr-result" id="dateOut">
+          RESULT...
+        </div>
+
+      `;
+
+
+      const current =
+        content.querySelector("#currentUnix");
+
+      const input =
+        content.querySelector("#timestampInput");
+
+      const dateOut =
+        content.querySelector("#dateOut");
+
+
+      function updateUnix() {
+
+        current.textContent =
+          Math.floor(Date.now() / 1000);
+
+      }
+
+
+      updateUnix();
+
+
+      content.querySelector("#refreshUnix").onclick =
+        updateUnix;
+
+
+      content.querySelector("#copyUnix").onclick =
+        function () {
+
+          copyText(current.textContent);
+
+        };
+
+
+      content.querySelector("#convertUnix").onclick =
+        function () {
+
+          const value =
+            Number(input.value);
+
+          if (!Number.isFinite(value)) {
+
+            dateOut.textContent =
+              "INVALID TIMESTAMP.";
+
+            return;
+
+          }
+
+          const date =
+            new Date(
+              value < 10000000000
+                ? value * 1000
+                : value
+            );
+
+          dateOut.textContent =
+            date.toString();
+           
+        };
+
+    }
+
+
+    /* =======================================
+       CALCULATOR LAB
+       ======================================= */
+
+    if (type === "calc") {
+
+      content.innerHTML = `
+
+        <h3>06 // CALC LAB</h3>
+
+        <p>
+          Quick mathematical calculations.
+        </p>
+
+        <input
+          id="calcInput"
+          placeholder="Example: 25 * 4 + 10"
+          inputmode="decimal"
+        >
+
+        <div class="jr-actions">
+
+          <button class="jr-action" id="calculate">
+            CALCULATE
+          </button>
+
+          <button class="jr-action alt" id="copyCalc">
+            COPY RESULT
+          </button>
+
+        </div>
+
+        <div class="jr-result" id="calcOut">
+          RESULT...
+        </div>
+
+      `;
+
+
+      const input =
+        content.querySelector("#calcInput");
+
+      const output =
+        content.querySelector("#calcOut");
+
+
+      content.querySelector("#calculate").onclick =
+        function () {
+
+          const expression =
+            input.value.trim();
+
+          if (!expression) {
+
+            output.textContent =
+              "ENTER A CALCULATION.";
+
+            return;
+
+          }
+
+          /*
+           * Only basic mathematical characters
+           * are accepted.
+           */
+
+          if (!/^[0-9+\\-*/().%\\s]+$/.test(expression)) {
+
+            output.textContent =
+              "ONLY BASIC MATH OPERATORS ARE ALLOWED.";
+
+            return;
+
+          }
+
+          try {
+
+            const result =
+              Function(
+                '"use strict"; return (' +
+                expression +
+                ')'
+              )();
+
+            if (
+              typeof result !== "number" ||
+              !Number.isFinite(result)
+            ) {
+
+              output.textContent =
+                "INVALID CALCULATION.";
+
+              return;
+
+            }
+
+            output.textContent =
+              String(result);
+
+          } catch (error) {
+
+            output.textContent =
+              "INVALID CALCULATION.";
+
+          }
+
+        };
+
+
+      content.querySelector("#copyCalc").onclick =
+        function () {
+
+          copyText(output.textContent);
+           
+        };
+
+    }
+
+
+    /* =======================================
+       CASE LAB
+       ======================================= */
+
+    if (type === "case") {
+
+      content.innerHTML = `
+
+        <h3>07 // CASE LAB</h3>
+
+        <p>
+          Convert text into different letter cases.
+        </p>
+
+        <textarea
+          id="caseInput"
+          placeholder="Type your text..."
+        ></textarea>
+
+        <div class="jr-actions">
+
+          <button class="jr-action" id="caseUpper">
+            UPPERCASE
+          </button>
+
+          <button class="jr-action" id="caseLower">
+            lowercase
+          </button>
+
+          <button class="jr-action" id="caseTitle">
+            Title Case
+          </button>
+
+          <button class="jr-action alt" id="caseCopy">
+            COPY
+          </button>
+
+        </div>
+
+        <div class="jr-result" id="caseOut">
+          RESULT...
+        </div>
+
+      `;
+
+
+      const input =
+        content.querySelector("#caseInput");
+
+      const output =
+        content.querySelector("#caseOut");
+
+
+      content.querySelector("#caseUpper").onclick =
+        function () {
+
+          output.textContent =
+            input.value.toUpperCase();
+
+        };
+
+
+      content.querySelector("#caseLower").onclick =
+        function () {
+
+          output.textContent =
+            input.value.toLowerCase();
+
+        };
+
+
+      content.querySelector("#caseTitle").onclick =
+        function () {
+
+          output.textContent =
+            titleCase(input.value);
+
+        };
+
+
+      content.querySelector("#caseCopy").onclick =
+        function () {
+
+          copyText(output.textContent);
+           
+        };
+
+    }
+
+
+    /* =======================================
+       IMAGE LAB
+       ======================================= */
+
+    if (type === "image") {
+
+      content.innerHTML = `
+
+        <h3>08 // IMAGE LAB</h3>
+
+        <p>
+          Preview an image using a direct image URL.
+        </p>
+
+        <input
+          id="imageInput"
+          placeholder="https://example.com/image.jpg"
+        >
+
+        <div class="jr-actions">
+
+          <button class="jr-action" id="previewImage">
+            PREVIEW IMAGE
+          </button>
+
+          <button class="jr-action alt" id="clearImage">
+            CLEAR
+          </button>
+
+        </div>
+
+        <div class="jr-preview" id="imageOut"></div>
+
+      `;
+
+
+      const input =
+        content.querySelector("#imageInput");
+
+      const output =
+        content.querySelector("#imageOut");
+
+
+      content.querySelector("#previewImage").onclick =
+        function () {
+
+          const value =
+            input.value.trim();
+
+          if (!value) {
+
+            output.textContent =
+              "ENTER AN IMAGE URL.";
+
+            return;
+
+          }
+
+          output.innerHTML = `
+            <img
+              src="${value.replace(/"/g, "&quot;")}"
+              alt="Image preview"
+              onerror="this.style.display='none';this.parentElement.innerHTML='IMAGE COULD NOT BE LOADED.';"
+            >
+          `;
+
+        };
+
+
+      content.querySelector("#clearImage").onclick =
+        function () {
+
+          input.value = "";
+          output.innerHTML = "";
+           
+        };
+
+    }
+
+  }
+
+
+  /* =========================================
+     TOOL BUTTON EVENTS
+     ========================================= */
+
+  area.addEventListener("click", function (e) {
+
+    const button =
+      e.target.closest(".jr-tool-btn");
+
+    if (!button) return;
+
+    openTool(button.dataset.tool);
+
+  });
+
+
+  /* =========================================
+     SEARCH
+     ========================================= */
+
+  const search =
+    document.querySelector("#jrToolSearch");
+
+  const cards =
+    Array.from(
+      area.querySelectorAll(".jr-tool-card")
+    );
+
+  const noTools =
+    document.querySelector("#jrNoTools");
+
+
+  function filterTools() {
+
+    const query =
+      search.value
+        .trim()
+        .toLowerCase();
+
+    const activeFilter =
+      area.querySelector(
+        ".jr-filter.active"
+      )?.dataset.filter || "all";
+
+    let visible = 0;
+
+
+    cards.forEach(function (card) {
+
+      const category =
+        card.dataset.category;
+
+      const searchable =
+        (
+          card.dataset.search +
+          " " +
+          card.textContent
+        ).toLowerCase();
+
+      const matchesSearch =
+        !query ||
+        searchable.includes(query);
+
+      const matchesCategory =
+        activeFilter === "all" ||
+        category === activeFilter;
+
+      const show =
+        matchesSearch &&
+        matchesCategory;
+
+      card.style.display =
+        show ? "" : "none";
+
+      if (show) visible++;
+
+    });
+
+
+    if (noTools) {
+
+      noTools.style.display =
+        visible ? "none" : "block";
+
+    }
+
+  }
+
+
+  if (search) {
+
+    search.addEventListener(
+      "input",
+      filterTools
+);
+
+  }
+
+
+  /* =========================================
+     CATEGORY FILTERS
+     ========================================= */
+
+  area.addEventListener("click", function (e) {
+
+    const filter =
+      e.target.closest(".jr-filter");
+
+    if (!filter) return;
+
+
+    area
+      .querySelectorAll(".jr-filter")
+      .forEach(function (button) {
+
+        button.classList.remove("active");
+
+      });
+
+
+    filter.classList.add("active");
+
+    filterTools();
+
+  });
+
+
+})();
