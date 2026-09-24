@@ -415,7 +415,303 @@
 
     </section>
 
+<!-- =========================
+     03 // JOKER RKS STORE
+========================= -->
+<section id="store" class="store-section">
 
+  <div class="section-label">03 // STORE</div>
+
+  <h2>JOKER RKS STORE</h2>
+
+  <p class="store-intro">
+    Android applications, developer utilities and authorized security
+    toolkit solutions. Select a product and place your order.
+  </p>
+
+  <!-- ANDROID APPS -->
+  <div class="store-category">
+    <div class="category-title">
+      <span>01 //</span> ANDROID APPS
+    </div>
+
+    <div class="store-grid">
+
+      <article class="store-card">
+        <div class="store-image">
+          <div class="store-placeholder">APP</div>
+        </div>
+
+        <div class="store-info">
+          <span class="store-type">ANDROID APPLICATION</span>
+          <h3>Android App #01</h3>
+
+          <p>
+            Custom Android application. Product details and final
+            requirements will be discussed before delivery.
+          </p>
+
+          <button
+            class="order-btn"
+            data-product="Android App #01"
+          >
+            ORDER NOW →
+          </button>
+        </div>
+      </article>
+
+
+      <article class="store-card">
+        <div class="store-image">
+          <div class="store-placeholder">APP</div>
+        </div>
+
+        <div class="store-info">
+          <span class="store-type">ANDROID APPLICATION</span>
+          <h3>Android App #02</h3>
+
+          <p>
+            Android application package available through direct order.
+          </p>
+
+          <button
+            class="order-btn"
+            data-product="Android App #02"
+          >
+            ORDER NOW →
+          </button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+
+  <!-- SECURITY TOOLKIT -->
+  <div class="store-category">
+
+    <div class="category-title">
+      <span>02 //</span> SECURITY TOOLKIT
+    </div>
+
+    <p class="security-note">
+      Security tools are listed for authorized testing, learning and
+      defensive cybersecurity purposes only.
+    </p>
+
+    <div class="store-grid">
+
+      <article class="store-card">
+        <div class="store-image">
+          <div class="store-placeholder">SEC</div>
+        </div>
+
+        <div class="store-info">
+          <span class="store-type">SECURITY TOOL</span>
+          <h3>Security Toolkit #01</h3>
+
+          <p>
+            Security utility information and availability through
+            authorized order request.
+          </p>
+
+          <button
+            class="order-btn"
+            data-product="Security Toolkit #01"
+          >
+            ORDER NOW →
+          </button>
+        </div>
+      </article>
+
+
+      <article class="store-card">
+        <div class="store-image">
+          <div class="store-placeholder">SEC</div>
+        </div>
+
+        <div class="store-info">
+          <span class="store-type">SECURITY TOOL</span>
+          <h3>Security Toolkit #02</h3>
+
+          <p>
+            Security utility information and availability through
+            authorized order request.
+          </p>
+
+          <button
+            class="order-btn"
+            data-product="Security Toolkit #02"
+          >
+            ORDER NOW →
+          </button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+</section>
+
+
+<!-- =========================
+     ORDER MODAL
+========================= -->
+<div id="orderModal" class="order-modal">
+
+  <div class="order-box">
+
+    <button id="closeOrder" class="close-order">×</button>
+
+    <div class="order-header">
+      <span>JOKER RKS // ORDER SYSTEM</span>
+      <h2>PLACE YOUR ORDER</h2>
+
+      <p>
+        Complete all required information before submitting your request.
+      </p>
+    </div>
+
+    <form id="orderForm">
+
+      <!-- PRODUCT -->
+      <div class="form-group">
+        <label>SELECT PRODUCT *</label>
+
+        <select id="orderProduct" name="product" required>
+          <option value="">Select Product</option>
+        </select>
+      </div>
+
+
+      <!-- REAL NAME -->
+      <div class="form-group">
+        <label>FULL REAL NAME *</label>
+
+        <input
+          type="text"
+          id="fullName"
+          name="fullName"
+          placeholder="Enter your real name"
+          autocomplete="name"
+          required
+        >
+      </div>
+
+
+      <!-- FATHER NAME -->
+      <div class="form-group">
+        <label>FATHER NAME *</label>
+
+        <input
+          type="text"
+          id="fatherName"
+          name="fatherName"
+          placeholder="Enter father's name"
+          required
+        >
+      </div>
+
+
+      <!-- PHONE -->
+      <div class="form-group">
+        <label>WHATSAPP / PHONE NUMBER *</label>
+
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder="+92 3XX XXXXXXX"
+          autocomplete="tel"
+          required
+        >
+      </div>
+
+
+      <!-- EMAIL -->
+      <div class="form-group">
+        <label>EMAIL ADDRESS *</label>
+
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="example@email.com"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+
+      <!-- PURPOSE -->
+      <div class="form-group">
+
+        <label>APPLICATION / TOOL PURPOSE *</label>
+
+        <textarea
+          id="purpose"
+          name="purpose"
+          rows="4"
+          placeholder="Explain why you need this application or tool..."
+          required
+        ></textarea>
+
+      </div>
+
+
+      <!-- ADDITIONAL DETAILS -->
+      <div class="form-group">
+
+        <label>ADDITIONAL DETAILS</label>
+
+        <textarea
+          id="additionalDetails"
+          name="additionalDetails"
+          rows="4"
+          placeholder="Any additional requirements or information..."
+        ></textarea>
+
+      </div>
+
+
+      <!-- CONSENT -->
+      <div class="order-consent">
+
+        <label class="checkbox-row">
+
+          <input
+            type="checkbox"
+            id="orderConsent"
+            required
+          >
+
+          <span>
+            I confirm that the information provided above is correct
+            and I will use the requested application/tool only for
+            lawful and authorized purposes.
+          </span>
+
+        </label>
+
+      </div>
+
+
+      <!-- SUBMIT -->
+      <button
+        type="submit"
+        id="submitOrder"
+        class="submit-order"
+      >
+        SUBMIT ORDER →
+      </button>
+
+      <div id="orderMessage" class="order-message"></div>
+
+    </form>
+
+  </div>
+
+            </div>
 
     <!-- ==================================================
          TOOLS
