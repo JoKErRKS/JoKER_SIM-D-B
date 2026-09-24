@@ -1,1935 +1,1809 @@
-/* =================================
-   JOKER RKS // PREMIUM TOOLS HUB v3
-   ================================= */
+/* =========================================================
+   JOKER RKS // PREMIUM TOOLS HUB v4.2
+   ========================================================= */
 
 (function () {
   "use strict";
 
-  const area = document.querySelector("#tools .tools");
-  if (!area) return;
+  function initJokerTools() {
 
-  /* =================================
-     TOOL DATA
-     ================================= */
+    const area = document.querySelector("#tools .tools");
 
-  const tools = [
-    {
-      id: "text",
-      number: "01",
-      category: "TEXT",
-      icon: "✦",
-      title: "TEXT LAB",
-      desc: "Write, clean, transform and analyze text."
-    },
-    {
-      id: "qr",
-      number: "02",
-      category: "UTILITY",
-      icon: "▦",
-      title: "QR LAB",
-      desc: "Generate QR codes from links or text."
-    },
-    {
-      id: "dev",
-      number: "03",
-      category: "DEVELOPER",
-      icon: "</>",
-      title: "DEV LAB",
-      desc: "JSON formatter and Base64 utilities."
-    },
-    {
-      id: "url",
-      number: "04",
-      category: "UTILITY",
-      icon: "↗",
-      title: "URL LAB",
-      desc: "Encode, decode and inspect URLs."
-    },
-    {
-      id: "time",
-      number: "05",
-      category: "UTILITY",
-      icon: "◷",
-      title: "TIME LAB",
-      desc: "Check current time and Unix timestamp."
-    },
-    {
-      id: "calc",
-      number: "06",
-      category: "MATH",
-      icon: "＋",
-      title: "CALC LAB",
-      desc: "Quick calculator for everyday calculations."
-    },
-    {
-      id: "case",
-      number: "07",
-      category: "TEXT",
-      icon: "Aa",
-      title: "CASE LAB",
-      desc: "Convert text between different cases."
-    },
-    {
-      id: "image",
-      number: "08",
-      category: "UTILITY",
-      icon: "▧",
-      title: "IMAGE LAB",
-      desc: "Preview an image from a direct URL."
-    }
-  ];
-
-
-  /* =================================
-     TOOL CARDS
-     ================================= */
-
-  function renderCards(list) {
-
-    if (!list.length) {
-
-      area.innerHTML = `
-        <div class="jr-empty">
-          NO TOOLS FOUND
-        </div>
-      `;
-
+    if (!area) {
+      console.warn("JOKER RKS: #tools .tools not found");
       return;
     }
 
-    area.innerHTML = list.map(function (tool) {
+    const tools = [
+      {
+        id: "text",
+        number: "01",
+        category: "TEXT",
+        icon: "✦",
+        title: "TEXT LAB",
+        desc: "Write, clean, transform and analyze text."
+      },
+      {
+        id: "qr",
+        number: "02",
+        category: "UTILITY",
+        icon: "▦",
+        title: "QR LAB",
+        desc: "Generate QR codes from links or text."
+      },
+      {
+        id: "dev",
+        number: "03",
+        category: "DEVELOPER",
+        icon: "</>",
+        title: "DEV LAB",
+        desc: "JSON formatter and Base64 utilities."
+      },
+      {
+        id: "url",
+        number: "04",
+        category: "UTILITY",
+        icon: "↗",
+        title: "URL LAB",
+        desc: "Encode, decode and inspect URLs."
+      },
+      {
+        id: "time",
+        number: "05",
+        category: "UTILITY",
+        icon: "◷",
+        title: "TIME LAB",
+        desc: "Check current time and Unix timestamp."
+      },
+      {
+        id: "calc",
+        number: "06",
+        category: "MATH",
+        icon: "＋",
+        title: "CALC LAB",
+        desc: "Quick calculator for everyday calculations."
+      },
+      {
+        id: "case",
+        number: "07",
+        category: "TEXT",
+        icon: "Aa",
+        title: "CASE LAB",
+        desc: "Convert text between different cases."
+      },
+      {
+        id: "image",
+        number: "08",
+        category: "UTILITY",
+        icon: "▧",
+        title: "IMAGE LAB",
+        desc: "Preview an image from a direct URL."
+      }
+    ];
 
-      return `
-        <article class="tool jr-tool-card">
+    /* =========================
+       CSS
+       ========================= */
 
-          <div class="jr-tool-top">
-            <span class="jr-tool-number">
-              ${tool.number}
-            </span>
+    const style = document.createElement("style");
 
-            <span class="jr-tool-icon">
-              ${tool.icon}
-            </span>
-          </div>
+    style.id = "jokerToolsV42Style";
 
-          <div class="jr-tool-category">
-            ${tool.category}
-          </div>
+    style.textContent = `
 
-          <h3>
-            ${tool.title}
-          </h3>
+      .jr-tools-wrapper-v42 {
+        width: 100%;
+      }
 
-          <p>
-            ${tool.desc}
-          </p>
+      .jr-tools-controls-v42 {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
 
-          <button
-            class="jr-tool-btn"
+      .jr-tools-search-v42 {
+        flex: 1;
+        min-width: 190px;
+        padding: 13px 15px;
+        box-sizing: border-box;
+        background: rgba(0,0,0,.35);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,.18);
+        outline: none;
+        font: 12px monospace;
+        border-radius: 10px;
+      }
+
+      .jr-filter-v42 {
+        padding: 11px 14px;
+        background: rgba(0,0,0,.35);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,.18);
+        cursor: pointer;
+        border-radius: 10px;
+        font-size: 10px;
+        letter-spacing: 1px;
+      }
+
+      .jr-filter-v42:hover,
+      .jr-filter-v42.active {
+        background: #fff;
+        color: #000;
+      }
+
+      #tools .jr-tool-card-v42 {
+        position: relative;
+        overflow: hidden;
+        transition: .25s ease;
+      }
+
+      #tools .jr-tool-card-v42:hover {
+        transform: translateY(-5px);
+      }
+
+      .jr-tool-top-v42 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .jr-tool-number-v42 {
+        font-size: 11px;
+        opacity: .5;
+        letter-spacing: 2px;
+      }
+
+      .jr-tool-icon-v42 {
+        font-size: 22px;
+        opacity: .75;
+      }
+
+      .jr-tool-category-v42 {
+        font-size: 8px;
+        letter-spacing: 2px;
+        opacity: .5;
+        margin-bottom: 8px;
+      }
+
+      .jr-tool-btn-v42 {
+        margin-top: 15px;
+        padding: 10px 14px;
+        background: transparent;
+        color: inherit;
+        border: 1px solid currentColor;
+        cursor: pointer;
+        font: inherit;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        border-radius: 8px;
+      }
+
+      .jr-tool-btn-v42:hover {
+        background: #fff;
+        color: #000;
+      }
+
+      .jr-modal-v42 {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 999999;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        box-sizing: border-box;
+        background: rgba(0,0,0,.88);
+        backdrop-filter: blur(10px);
+      }
+
+      .jr-modal-v42.show {
+        display: flex;
+      }
+
+      .jr-box-v42 {
+        width: min(680px, 100%);
+        max-height: 90vh;
+        overflow: auto;
+        padding: 25px;
+        box-sizing: border-box;
+        background: #080808;
+        color: #eee;
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 16px;
+        box-shadow: 0 0 70px rgba(0,0,0,.8);
+      }
+
+      .jr-modal-head-v42 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 18px;
+      }
+
+      .jr-modal-head-v42 h3 {
+        margin: 0;
+        letter-spacing: 2px;
+      }
+
+      .jr-close-v42 {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #444;
+        background: transparent;
+        color: #fff;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 22px;
+      }
+
+      .jr-input-v42,
+      .jr-textarea-v42 {
+        width: 100%;
+        box-sizing: border-box;
+        margin: 7px 0 12px;
+        padding: 12px;
+        background: #050505;
+        color: #eee;
+        border: 1px solid #333;
+        outline: none;
+        font: 13px monospace;
+        border-radius: 9px;
+      }
+
+      .jr-textarea-v42 {
+        min-height: 170px;
+        resize: vertical;
+      }
+
+      .jr-actions-v42 {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 8px 0 15px;
+      }
+
+      .jr-action-v42 {
+        padding: 10px 13px;
+        background: #151515;
+        color: #fff;
+        border: 1px solid #444;
+        cursor: pointer;
+        border-radius: 9px;
+        font-size: 10px;
+      }
+
+      .jr-action-v42:hover {
+        background: #fff;
+        color: #000;
+      }
+
+      .jr-result-v42 {
+        padding: 13px;
+        min-height: 42px;
+        box-sizing: border-box;
+        border: 1px solid #333;
+        background: #0b0b0b;
+        color: #bbb;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font: 12px monospace;
+        border-radius: 9px;
+      }
+
+      .jr-stats-v42 {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 10px 0;
+      }
+
+      .jr-stat-v42 {
+        flex: 1 1 90px;
+        padding: 10px;
+        border: 1px solid #292929;
+        background: #0b0b0b;
+        text-align: center;
+        font: 11px monospace;
+        color: #aaa;
+        border-radius: 8px;
+      }
+
+      .jr-stat-v42 strong {
+        display: block;
+        color: #fff;
+        font-size: 17px;
+        margin-bottom: 3px;
+      }
+
+      .jr-qr-v42 {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .jr-qr-v42 img {
+        background: #fff;
+        padding: 7px;
+        max-width: 200px;
+        border-radius: 8px;
+      }
+
+      #jrMusicToggleV42 {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 999998;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,.3);
+        background: rgba(0,0,0,.82);
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 25px rgba(255,255,255,.15);
+      }
+
+      @media(max-width:600px) {
+
+        .jr-tools-controls-v42 {
+          display: block;
+        }
+
+        .jr-tools-search-v42 {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+
+        .jr-filter-v42 {
+          margin: 3px;
+        }
+
+        .jr-box-v42 {
+          padding: 20px 15px;
+        }
+      }
+
+    `;
+
+    document.head.appendChild(style);
+
+    /* =========================
+       TOOL CARDS
+       ========================= */
+
+    function renderTools(list) {
+
+      area.innerHTML = list.map(function(tool) {
+
+        return `
+          <article
+            class="tool jr-tool-card-v42"
             data-tool="${tool.id}"
+            data-category="${tool.category}"
           >
-            OPEN TOOL →
-          </button>
 
-        </article>
-      `;
+            <div class="jr-tool-top-v42">
 
-    }).join("");
+              <span class="jr-tool-number-v42">
+                ${tool.number}
+              </span>
 
-  }
+              <span class="jr-tool-icon-v42">
+                ${tool.icon}
+              </span>
 
+            </div>
 
-  /* =================================
-     TOOL HUB HEADER
-     ================================= */
+            <div class="jr-tool-category-v42">
+              ${tool.category}
+            </div>
 
-  const wrapper = document.createElement("div");
+            <h3>${tool.title}</h3>
 
-  wrapper.className = "jr-tools-wrapper";
+            <p>${tool.desc}</p>
 
-  wrapper.innerHTML = `
+            <button
+              type="button"
+              class="jr-tool-btn-v42"
+              data-tool="${tool.id}"
+            >
+              OPEN TOOL →
+            </button>
 
-    <div class="jr-tools-head">
+          </article>
+        `;
 
-      <div>
-        <div class="jr-tools-mini">
-          JOKER RKS // TOOL SYSTEM
-        </div>
+      }).join("");
 
-        <h3 class="jr-tools-title">
-          PREMIUM <span>TOOLS</span>
-        </h3>
+    }
 
-        <p class="jr-tools-subtitle">
-          Useful utilities built directly into the
-          JOKER RKS Digital World.
-        </p>
-      </div>
+    renderTools(tools);
 
-      <div class="jr-tool-count">
-        <strong>08</strong>
-        TOOLS ONLINE
-      </div>
+    /* =========================
+       SEARCH + FILTER
+       ========================= */
 
-    </div>
+    const controls = document.createElement("div");
 
+    controls.className = "jr-tools-controls-v42";
 
-    <div class="jr-tools-controls">
+    controls.innerHTML = `
 
       <input
-        id="jrToolSearch"
-        class="jr-tool-search"
+        id="jrToolSearchV42"
+        class="jr-tools-search-v42"
         type="search"
         placeholder="SEARCH TOOLS..."
         autocomplete="off"
       >
 
-      <div class="jr-tool-filters">
+      <button
+        type="button"
+        class="jr-filter-v42 active"
+        data-filter="ALL"
+      >
+        ALL
+      </button>
 
-        <button
-          class="jr-filter active"
-          data-filter="ALL"
-        >
-          ALL
-        </button>
+      <button
+        type="button"
+        class="jr-filter-v42"
+        data-filter="TEXT"
+      >
+        TEXT
+      </button>
 
-        <button
-          class="jr-filter"
-          data-filter="TEXT"
-        >
-          TEXT
-        </button>
+      <button
+        type="button"
+        class="jr-filter-v42"
+        data-filter="UTILITY"
+      >
+        UTILITY
+      </button>
 
-        <button
-          class="jr-filter"
-          data-filter="UTILITY"
-        >
-          UTILITY
-        </button>
+      <button
+        type="button"
+        class="jr-filter-v42"
+        data-filter="DEVELOPER"
+      >
+        DEVELOPER
+      </button>
 
-        <button
-          class="jr-filter"
-          data-filter="DEVELOPER"
-        >
-          DEVELOPER
-        </button>
+      <button
+        type="button"
+        class="jr-filter-v42"
+        data-filter="MATH"
+      >
+        MATH
+      </button>
 
-        <button
-          class="jr-filter"
-          data-filter="MATH"
-        >
-          MATH
-        </button>
+    `;
+
+    area.parentNode.insertBefore(controls, area);
+
+    let activeFilter = "ALL";
+
+    function filterTools() {
+
+      const input =
+        document.getElementById("jrToolSearchV42");
+
+      const query =
+        input
+          ? input.value.toLowerCase().trim()
+          : "";
+
+      area
+        .querySelectorAll(".jr-tool-card-v42")
+        .forEach(function(card) {
+
+          const category =
+            card.dataset.category;
+
+          const text =
+            card.textContent.toLowerCase();
+
+          const searchOK =
+            !query || text.includes(query);
+
+          const filterOK =
+            activeFilter === "ALL" ||
+            category === activeFilter;
+
+          card.style.display =
+            searchOK && filterOK
+              ? ""
+              : "none";
+
+        });
+
+    }
+
+    controls.addEventListener(
+      "input",
+      filterTools
+    );
+
+    controls.addEventListener(
+      "click",
+      function(e) {
+
+        const button =
+          e.target.closest(".jr-filter-v42");
+
+        if (!button) return;
+
+        controls
+          .querySelectorAll(".jr-filter-v42")
+          .forEach(function(btn) {
+            btn.classList.remove("active");
+          });
+
+        button.classList.add("active");
+
+        activeFilter =
+          button.dataset.filter;
+
+        filterTools();
+
+      }
+    );
+        /* =========================
+       MODAL
+       ========================= */
+
+    const modal =
+      document.createElement("div");
+
+    modal.id = "jrModalV42";
+    modal.className = "jr-modal-v42";
+
+    modal.innerHTML = `
+
+      <div class="jr-box-v42">
+
+        <div class="jr-modal-head-v42">
+
+          <h3 id="jrModalTitleV42">
+            JOKER RKS TOOL
+          </h3>
+
+          <button
+            type="button"
+            class="jr-close-v42"
+            id="jrCloseV42"
+          >
+            ×
+          </button>
+
+        </div>
+
+        <div id="jrContentV42"></div>
 
       </div>
 
-    </div>
+    `;
 
-  `;
+    document.body.appendChild(modal);
 
-  area.parentNode.insertBefore(wrapper, area);
+    const content =
+      document.getElementById("jrContentV42");
 
-  wrapper.appendChild(area);
+    const modalTitle =
+      document.getElementById("jrModalTitleV42");
 
+    function closeTool() {
 
-  /* =================================
-     CSS
-     ================================= */
+      modal.classList.remove("show");
 
-  const css = document.createElement("style");
+      content.innerHTML = "";
 
-  css.textContent = `
+      document.body.style.overflow = "";
 
-    .jr-tools-wrapper {
-      width:100%;
     }
 
-    .jr-tools-head {
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap:20px;
-      margin-bottom:25px;
+    function showTool() {
+
+      modal.classList.add("show");
+
+      document.body.style.overflow = "hidden";
+
     }
 
-    .jr-tools-mini {
-      font-size:10px;
-      letter-spacing:3px;
-      opacity:.55;
-      margin-bottom:8px;
-    }
+    document
+      .getElementById("jrCloseV42")
+      .addEventListener(
+        "click",
+        closeTool
+      );
 
-    .jr-tools-title {
-      margin:0;
-      font-size:22px;
-      letter-spacing:2px;
-    }
+    modal.addEventListener(
+      "click",
+      function(e) {
 
-    .jr-tools-title span {
-      opacity:.55;
-    }
+        if (e.target === modal) {
+          closeTool();
+        }
 
-    .jr-tools-subtitle {
-      margin:8px 0 0;
-      opacity:.65;
-      font-size:12px;
-      line-height:1.6;
-    }
-
-    .jr-tool-count {
-      min-width:90px;
-      padding:12px;
-      border:1px solid rgba(255,255,255,.15);
-      text-align:center;
-      font-size:8px;
-      letter-spacing:2px;
-      opacity:.7;
-    }
-
-    .jr-tool-count strong {
-      display:block;
-      font-size:22px;
-      letter-spacing:0;
-      margin-bottom:4px;
-    }
-
-
-    /* SEARCH */
-
-    .jr-tools-controls {
-      display:flex;
-      gap:12px;
-      align-items:center;
-      margin-bottom:22px;
-      flex-wrap:wrap;
-    }
-
-    .jr-tool-search {
-      flex:1;
-      min-width:180px;
-      box-sizing:border-box;
-      padding:13px 15px;
-      background:rgba(0,0,0,.35);
-      color:#fff;
-      border:1px solid rgba(255,255,255,.15);
-      outline:none;
-      font:11px monospace;
-      letter-spacing:1px;
-    }
-
-    .jr-tool-search:focus {
-      border-color:rgba(255,255,255,.55);
-    }
-
-
-    /* FILTERS */
-
-    .jr-tool-filters {
-      display:flex;
-      gap:6px;
-      flex-wrap:wrap;
-    }
-
-    .jr-filter {
-      padding:10px 12px;
-      background:transparent;
-      color:inherit;
-      border:1px solid rgba(255,255,255,.15);
-      cursor:pointer;
-      font-size:9px;
-      letter-spacing:1px;
-      transition:.2s;
-    }
-
-    .jr-filter:hover,
-    .jr-filter.active {
-      background:#fff;
-      color:#000;
-    }
-
-
-    /* CARDS */
-
-    #tools .jr-tool-card {
-      position:relative;
-      overflow:hidden;
-      transition:
-        transform .25s ease,
-        border-color .25s ease,
-        box-shadow .25s ease;
-    }
-
-    #tools .jr-tool-card:hover {
-      transform:translateY(-6px);
-      border-color:rgba(255,255,255,.35);
-      box-shadow:
-        0 15px 45px rgba(0,0,0,.25);
-    }
-
-    .jr-tool-top {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:18px;
-    }
-
-    .jr-tool-number {
-      font-size:11px;
-      letter-spacing:2px;
-      opacity:.45;
-    }
-
-    .jr-tool-icon {
-      font-size:22px;
-      opacity:.7;
-    }
-
-    .jr-tool-category {
-      display:inline-block;
-      font-size:8px;
-      letter-spacing:2px;
-      opacity:.5;
-      margin-bottom:8px;
-    }
-
-    #tools .jr-tool-card h3 {
-      margin-top:0;
-    }
-
-    .jr-tool-btn {
-      margin-top:16px;
-      padding:10px 14px;
-      background:transparent;
-      color:inherit;
-      border:1px solid currentColor;
-      cursor:pointer;
-      font:inherit;
-      font-size:10px;
-      letter-spacing:1.5px;
-      transition:.2s;
-    }
-
-    .jr-tool-btn:hover {
-      background:#fff;
-      color:#000;
-    }
-
-    .jr-empty {
-      grid-column:1/-1;
-      padding:40px 20px;
-      text-align:center;
-      border:1px solid rgba(255,255,255,.12);
-      opacity:.6;
-      letter-spacing:2px;
-      font-size:11px;
-    }
-
-
-    /* =================================
-       MODAL
-       ================================= */
-
-    .jr-modal {
-      display:none;
-      position:fixed;
-      inset:0;
-      z-index:999999;
-      align-items:center;
-      justify-content:center;
-      padding:16px;
-      background:rgba(0,0,0,.88);
-      backdrop-filter:blur(10px);
-    }
-
-    .jr-modal.show {
-      display:flex;
-    }
-
-    .jr-box {
-      position:relative;
-      width:min(650px,100%);
-      max-height:90vh;
-      overflow:auto;
-      padding:28px;
-      box-sizing:border-box;
-      background:#080808;
-      color:#eee;
-      border:1px solid rgba(255,255,255,.2);
-      box-shadow:
-        0 0 70px rgba(0,0,0,.8);
-    }
-
-    .jr-close {
-      position:absolute;
-      right:12px;
-      top:6px;
-      background:none;
-      border:0;
-      color:#aaa;
-      font-size:28px;
-      cursor:pointer;
-    }
-
-    .jr-box h3 {
-      margin:0 40px 8px 0;
-      letter-spacing:2px;
-    }
-
-    .jr-box p {
-      color:#888;
-      font-size:12px;
-      line-height:1.6;
-      margin-bottom:12px;
-    }
-
-    .jr-box textarea,
-    .jr-box input {
-      box-sizing:border-box;
-      width:100%;
-      margin:7px 0;
-      padding:12px;
-      background:#050505;
-      color:#eee;
-      border:1px solid #333;
-      outline:none;
-      font:13px monospace;
-    }
-
-    .jr-box textarea {
-      min-height:180px;
-      resize:vertical;
-    }
-
-    .jr-box textarea:focus,
-    .jr-box input:focus {
-      border-color:#777;
-    }
-
-    .jr-actions {
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      margin-top:8px;
-    }
-
-    .jr-action {
-      padding:9px 12px;
-      background:#fff;
-      color:#000;
-      border:1px solid #fff;
-      cursor:pointer;
-      font-size:10px;
-      letter-spacing:1px;
-    }
-
-    .jr-action.alt {
-      background:transparent;
-      color:#eee;
-      border-color:#444;
-    }
-
-    .jr-result {
-      margin-top:10px;
-      padding:12px;
-      min-height:42px;
-      border:1px solid #333;
-      color:#bbb;
-      white-space:pre-wrap;
-      word-break:break-word;
-      font:12px monospace;
-    }
-
-    .jr-stats {
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin:10px 0;
-    }
-
-    .jr-stat {
-      flex:1 1 90px;
-      padding:9px;
-      border:1px solid #292929;
-      background:#0b0b0b;
-      text-align:center;
-      font:11px monospace;
-      color:#aaa;
-    }
-
-    .jr-stat strong {
-      display:block;
-      color:#fff;
-      font-size:16px;
-      margin-bottom:3px;
-    }
-
-    .jr-qr {
-      text-align:center;
-      margin-top:14px;
-    }
-
-    .jr-qr img {
-      background:#fff;
-      padding:7px;
-      max-width:190px;
-    }
-
-    .jr-preview {
-      text-align:center;
-      margin-top:15px;
-    }
-
-    .jr-preview img {
-      max-width:100%;
-      max-height:350px;
-      border:1px solid #333;
-    }
-
-
-    @media(max-width:600px) {
-
-      .jr-tools-head {
-        align-items:flex-start;
-        flex-direction:column;
       }
-
-      .jr-tool-count {
-        width:100%;
-        box-sizing:border-box;
-      }
-
-      .jr-tools-controls {
-        display:block;
-      }
-
-      .jr-tool-search {
-        width:100%;
-        margin-bottom:10px;
-      }
-
-      .jr-tool-filters {
-        width:100%;
-      }
-
-      .jr-filter {
-        flex:1;
-      }
-
-      .jr-box {
-        padding:22px 16px;
-      }
-
-      .jr-action {
-        flex:1 1 auto;
-      }
-
-    }
-
-  `;
-
-  document.head.appendChild(css);
-
-
-  /* =================================
-     RENDER
-     ================================= */
-
-  renderCards(tools);
-
-
-  /* =================================
-     SEARCH + FILTER
-     ================================= */
-
-  const search =
-    document.getElementById("jrToolSearch");
-
-  let activeFilter = "ALL";
-
-  function updateTools() {
-
-    const query =
-      (search ? search.value : "")
-        .toLowerCase()
-        .trim();
-
-    const filtered =
-      tools.filter(function (tool) {
-
-        const matchesFilter =
-          activeFilter === "ALL" ||
-          tool.category === activeFilter;
-
-        const matchesSearch =
-          !query ||
-          tool.title.toLowerCase().includes(query) ||
-          tool.desc.toLowerCase().includes(query) ||
-          tool.category.toLowerCase().includes(query);
-
-        return matchesFilter && matchesSearch;
-
-      });
-
-    renderCards(filtered);
-
-  }
-
-
-  if (search) {
-
-    search.addEventListener(
-      "input",
-      updateTools
     );
 
-  }
+    document.addEventListener(
+      "keydown",
+      function(e) {
 
-
-  wrapper
-    .querySelectorAll(".jr-filter")
-    .forEach(function (button) {
-
-      button.addEventListener(
-        "click",
-        function () {
-
-          wrapper
-            .querySelectorAll(".jr-filter")
-            .forEach(function (btn) {
-              btn.classList.remove("active");
-            });
-
-          button.classList.add("active");
-
-          activeFilter =
-            button.dataset.filter;
-
-          updateTools();
-
+        if (e.key === "Escape") {
+          closeTool();
         }
-      );
 
-    });
-
-
-  /* =================================
-     MODAL
-     ================================= */
-
-  const modal =
-    document.createElement("div");
-
-  modal.className = "jr-modal";
-
-  modal.innerHTML = `
-
-    <div class="jr-box">
-
-      <button
-        class="jr-close"
-        aria-label="Close"
-      >
-        ×
-      </button>
-
-      <div id="jrContent"></div>
-
-    </div>
-
-  `;
-
-  document.body.appendChild(modal);
-
-  const content =
-    modal.querySelector("#jrContent");
-
-
-  function close() {
-
-    modal.classList.remove("show");
-
-    content.innerHTML = "";
-
-    document.body.style.overflow = "";
-
-  }
-
-
-  function show() {
-
-    modal.classList.add("show");
-
-    document.body.style.overflow = "hidden";
-
-  }
-
-
-  modal.querySelector(".jr-close").onclick =
-    close;
-
-
-  modal.onclick = function (e) {
-
-    if (e.target === modal) {
-      close();
-    }
-
-  };
-
-
-  document.addEventListener(
-    "keydown",
-    function (e) {
-
-      if (e.key === "Escape") {
-        close();
       }
+    );
 
-    }
-  );
-
-
-  /* =================================
-     COPY
-     ================================= */
-
-  function copyText(value, status) {
-
-    if (!value) return;
-
-    if (
-      navigator.clipboard &&
-      window.isSecureContext
+    function inputField(
+      label,
+      id,
+      placeholder,
+      textarea
     ) {
 
-      navigator.clipboard
-        .writeText(value)
-        .then(function () {
+      return `
 
-          if (status) {
-            status.textContent =
-              "COPIED ✓";
-          }
+        <label>${label}</label>
 
-        })
-        .catch(function () {});
+        ${
+          textarea
 
-    } else {
+          ? `
+            <textarea
+              id="${id}"
+              class="jr-textarea-v42"
+              placeholder="${placeholder || ""}"
+            ></textarea>
+          `
 
-      const area =
-        document.createElement("textarea");
-
-      area.value = value;
-
-      document.body.appendChild(area);
-
-      area.select();
-
-      try {
-        document.execCommand("copy");
-      } catch (e) {}
-
-      area.remove();
-
-      if (status) {
-        status.textContent =
-          "COPIED ✓";
-      }
-
-    }
-
-  }
-
-
-  /* =================================
-     TEXT HELPERS
-     ================================= */
-
-  function titleCase(value) {
-
-    return value
-      .toLowerCase()
-      .replace(
-        /(^|\s)(\S)/g,
-        function (m, space, char) {
-          return space +
-            char.toUpperCase();
+          : `
+            <input
+              id="${id}"
+              class="jr-input-v42"
+              placeholder="${placeholder || ""}"
+            >
+          `
         }
-      );
-
-  }
-
-
-  function updateStats(text) {
-
-    const words =
-      text.trim()
-        ? text.trim().split(/\s+/).length
-        : 0;
-
-    const lines =
-      text
-        ? text.split(/\r?\n/).length
-        : 0;
-
-    const chars =
-      content.querySelector("#jrChars");
-
-    const wordsEl =
-      content.querySelector("#jrWords");
-
-    const linesEl =
-      content.querySelector("#jrLines");
-
-    if (chars) {
-      chars.textContent =
-        text.length;
-    }
-
-    if (wordsEl) {
-      wordsEl.textContent =
-        words;
-    }
-
-    if (linesEl) {
-      linesEl.textContent =
-        lines;
-    }
-
-  }
-
-
-  /* =================================
-     OPEN TOOL
-     ================================= */
-
-  function open(type) {
-
-    show();
-
-
-    /* =================================
-       TEXT LAB
-       ================================= */
-
-    if (type === "text") {
-
-      content.innerHTML = `
-
-        <h3>
-          01 // TEXT LAB
-        </h3>
-
-        <p>
-          Fast text editing, cleanup and live statistics.
-        </p>
-
-        <textarea
-          id="jrText"
-          placeholder="Write or paste your text here..."
-        ></textarea>
-
-        <div class="jr-stats">
-
-          <div class="jr-stat">
-            <strong id="jrChars">0</strong>
-            CHARACTERS
-          </div>
-
-          <div class="jr-stat">
-            <strong id="jrWords">0</strong>
-            WORDS
-          </div>
-
-          <div class="jr-stat">
-            <strong id="jrLines">0</strong>
-            LINES
-          </div>
-
-        </div>
-
-        <div class="jr-actions">
-
-          <button class="jr-action" id="upper">
-            UPPERCASE
-          </button>
-
-          <button class="jr-action" id="lower">
-            LOWERCASE
-          </button>
-
-          <button class="jr-action" id="title">
-            TITLE CASE
-          </button>
-
-          <button class="jr-action" id="spaces">
-            CLEAN SPACES
-          </button>
-
-        </div>
-
-        <div class="jr-actions">
-
-          <button class="jr-action" id="copy">
-            COPY TEXT
-          </button>
-
-          <button class="jr-action alt" id="download">
-            DOWNLOAD TXT
-          </button>
-
-          <button class="jr-action alt" id="clear">
-            CLEAR
-          </button>
-
-        </div>
-
-        <div
-          class="jr-result"
-          id="textStatus"
-        >
-          READY
-        </div>
 
       `;
 
-
-      const text =
-        content.querySelector("#jrText");
-
-      const status =
-        content.querySelector("#textStatus");
-
-
-      function refresh() {
-        updateStats(text.value);
-      }
-
-
-      text.addEventListener(
-        "input",
-        refresh
-      );
-
-
-      content.querySelector("#upper").onclick =
-        function () {
-
-          text.value =
-            text.value.toUpperCase();
-
-          refresh();
-
-        };
-
-
-      content.querySelector("#lower").onclick =
-        function () {
-
-          text.value =
-            text.value.toLowerCase();
-
-          refresh();
-
-        };
-
-
-      content.querySelector("#title").onclick =
-        function () {
-
-          text.value =
-            titleCase(text.value);
-
-          refresh();
-
-        };
-
-
-      content.querySelector("#spaces").onclick =
-        function () {
-
-          text.value =
-            text.value
-              .replace(/[ \t]+/g, " ")
-              .replace(/ *\n */g, "\n")
-              .trim();
-
-          refresh();
-
-        };
-
-
-      content.querySelector("#copy").onclick =
-        function () {
-
-          copyText(
-            text.value,
-            status
-          );
-
-        };
-
-
-      content.querySelector("#clear").onclick =
-        function () {
-
-          text.value = "";
-
-          refresh();
-
-          status.textContent =
-            "CLEARED";
-
-          text.focus();
-
-        };
-
-
-      content.querySelector("#download").onclick =
-        function () {
-
-          const blob =
-            new Blob(
-              [text.value],
-              {
-                type:
-                  "text/plain;charset=utf-8"
-              }
-            );
-
-          const url =
-            URL.createObjectURL(blob);
-
-          const a =
-            document.createElement("a");
-
-          a.href = url;
-
-          a.download =
-            "joker-rks-text.txt";
-
-          a.click();
-
-          URL.revokeObjectURL(url);
-
-          status.textContent =
-            "TXT DOWNLOADED ✓";
-
-        };
-
-
-      text.focus();
-
     }
 
+    /* =========================
+       OPEN TOOL
+       ========================= */
 
-    /* =================================
-       QR LAB
-       ================================= */
+    function openTool(type) {
 
-    if (type === "qr") {
+      showTool();
 
-      content.innerHTML = `
+      /* TEXT LAB */
 
-        <h3>
-          02 // QR LAB
-        </h3>
+      if (type === "text") {
 
-        <p>
-          Enter text or a link and generate a QR code.
-        </p>
+        modalTitle.textContent =
+          "01 // TEXT LAB";
 
-        <input
-          id="qrInput"
-          placeholder="https://example.com"
-        >
+        content.innerHTML = `
 
-        <div class="jr-actions">
+          <p>
+            Fast text editing, cleanup and statistics.
+          </p>
 
-          <button
-            class="jr-action"
-            id="makeQR"
-          >
-            GENERATE QR
-          </button>
+          ${inputField(
+            "TEXT",
+            "jrTextV42",
+            "Write or paste your text here...",
+            true
+          )}
 
-          <button
-            class="jr-action alt"
-      id="clearQR">
-            CLEAR
-          </button>
+          <div class="jr-stats-v42">
 
-        </div>
+            <div class="jr-stat-v42">
+              <strong id="jrCharsV42">0</strong>
+              CHARACTERS
+            </div>
 
-        <div class="jr-qr" id="qrOut"></div>
+            <div class="jr-stat-v42">
+              <strong id="jrWordsV42">0</strong>
+              WORDS
+            </div>
 
-      `;
+            <div class="jr-stat-v42">
+              <strong id="jrLinesV42">0</strong>
+              LINES
+            </div>
 
+          </div>
 
-      content.querySelector("#makeQR").onclick = function () {
+          <div class="jr-actions-v42">
 
-        const value = content
-          .querySelector("#qrInput")
-          .value
-          .trim();
-
-        const output = content.querySelector("#qrOut");
-
-        if (!value) {
-
-          output.textContent =
-            "ENTER TEXT OR LINK FIRST.";
-
-          return;
-
-        }
-
-        output.innerHTML = `
-          <img
-            alt="Generated QR code"
-            src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(value)}"
-          >
-          <div class="jr-actions" style="justify-content:center">
-            <button class="jr-action alt" id="qrCopy">
-              COPY SOURCE
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrUpperV42"
+            >
+              UPPERCASE
             </button>
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrLowerV42"
+            >
+              LOWERCASE
+            </button>
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrTitleV42"
+            >
+              TITLE CASE
+            </button>
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrCleanV42"
+            >
+              CLEAN SPACES
+            </button>
+
           </div>
+
+          <div class="jr-actions-v42">
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrCopyV42"
+            >
+              COPY
+            </button>
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrClearV42"
+            >
+              CLEAR
+            </button>
+
+          </div>
+
+          <div
+            class="jr-result-v42"
+            id="jrTextStatusV42"
+          >
+            READY
+          </div>
+
         `;
 
+        const text =
+          document.getElementById("jrTextV42");
 
-        const copyButton =
-          output.querySelector("#qrCopy");
+        function stats() {
 
-        if (copyButton) {
+          const value = text.value;
 
-          copyButton.onclick = function () {
+          const words =
+            value.trim()
+              ? value.trim().split(/\s+/).length
+              : 0;
 
-            copyText(value, copyButton);
+          const lines =
+            value
+              ? value.split(/\r?\n/).length
+              : 0;
 
-            copyButton.textContent = "COPIED ✓";
+          document.getElementById(
+            "jrCharsV42"
+          ).textContent = value.length;
+
+          document.getElementById(
+            "jrWordsV42"
+          ).textContent = words;
+
+          document.getElementById(
+            "jrLinesV42"
+          ).textContent = lines;
+
+        }
+
+        text.addEventListener(
+          "input",
+          stats
+        );
+
+        document
+          .getElementById("jrUpperV42")
+          .onclick = function() {
+
+            text.value =
+              text.value.toUpperCase();
+
+            stats();
 
           };
 
-        }
+        document
+          .getElementById("jrLowerV42")
+          .onclick = function() {
 
-      };
+            text.value =
+              text.value.toLowerCase();
 
+            stats();
 
-      content.querySelector("#clearQR").onclick = function () {
+          };
 
-        content.querySelector("#qrInput").value = "";
-        content.querySelector("#qrOut").innerHTML = "";
-         };
+        document
+          .getElementById("jrTitleV42")
+          .onclick = function() {
 
-    }
+            text.value =
+              text.value
+                .toLowerCase()
+                .replace(
+                  /\b\w/g,
+                  function(x) {
+                    return x.toUpperCase();
+                  }
+                );
 
+            stats();
 
-    /* =======================================
-       DEV LAB
-       ======================================= */
+          };
 
-    if (type === "dev") {
+        document
+          .getElementById("jrCleanV42")
+          .onclick = function() {
 
-      content.innerHTML = `
+            text.value =
+              text.value
+                .replace(/[ \t]+/g, " ")
+                .replace(/ *\n */g, "\n")
+                .trim();
 
-        <h3>03 // DEV LAB</h3>
+            stats();
 
-        <p>
-          JSON formatter and Base64 developer utilities.
-        </p>
+          };
 
-        <textarea
-          id="devInput"
-          placeholder='Paste JSON or text here...'
-        ></textarea>
+        document
+          .getElementById("jrCopyV42")
+          .onclick = function() {
 
-        <div class="jr-actions">
+            const status =
+              document.getElementById(
+                "jrTextStatusV42"
+              );
 
-          <button class="jr-action" id="json">
-            FORMAT JSON
-          </button>
+            if (
+              navigator.clipboard &&
+              window.isSecureContext
+            ) {
 
-          <button class="jr-action" id="enc">
-            BASE64 ENCODE
-          </button>
+              navigator.clipboard
+                .writeText(text.value)
+                .then(function() {
+                  status.textContent =
+                    "COPIED ✓";
+                });
 
-          <button class="jr-action" id="dec">
-            BASE64 DECODE
-          </button>
+            } else {
 
-          <button class="jr-action alt" id="copyDev">
-            COPY RESULT
-          </button>
+              const temp =
+                document.createElement("textarea");
 
-        </div>
+              temp.value = text.value;
 
-        <div class="jr-result" id="devOut">
-          RESULT...
-        </div>
+              document.body.appendChild(temp);
 
-      `;
+              temp.select();
 
+              try {
+                document.execCommand("copy");
+              } catch(e) {}
 
-      const input =
-        content.querySelector("#devInput");
+              temp.remove();
 
-      const output =
-        content.querySelector("#devOut");
+              status.textContent =
+                "COPIED ✓";
 
+            }
 
-      content.querySelector("#json").onclick = function () {
+          };
 
-        try {
+        document
+          .getElementById("jrClearV42")
+          .onclick = function() {
 
-          output.textContent =
-            JSON.stringify(
-              JSON.parse(input.value),
-              null,
-              2
-            );
+            text.value = "";
 
-        } catch (error) {
+            stats();
 
-          output.textContent = "INVALID JSON.";
+            document.getElementById(
+              "jrTextStatusV42"
+            ).textContent = "CLEARED";
 
-        }
+          };
 
-      };
-
-
-      content.querySelector("#enc").onclick = function () {
-
-        try {
-
-          output.textContent =
-            btoa(
-              unescape(
-                encodeURIComponent(input.value)
-              )
-            );
-
-        } catch (error) {
-
-          output.textContent =
-            "COULD NOT ENCODE.";
-
-        }
-
-      };
-
-
-      content.querySelector("#dec").onclick = function () {
-
-        try {
-
-          output.textContent =
-            decodeURIComponent(
-              escape(
-                atob(input.value)
-              )
-            );
-
-        } catch (error) {
-
-          output.textContent =
-            "INVALID BASE64.";
-
-        }
-
-      };
-
-
-      content.querySelector("#copyDev").onclick = function () {
-
-        copyText(output.textContent);
-
-      };
-}
-
-
-    /* =======================================
-       URL LAB
-       ======================================= */
-
-    if (type === "url") {
-
-      content.innerHTML = `
-
-        <h3>04 // URL LAB</h3>
-
-        <p>
-          Encode, decode and inspect URL text.
-        </p>
-
-        <input
-          id="urlInput"
-          placeholder="https://example.com/hello world"
-        >
-
-        <div class="jr-actions">
-
-          <button class="jr-action" id="urlEncode">
-            ENCODE
-          </button>
-
-          <button class="jr-action" id="urlDecode">
-            DECODE
-          </button>
-
-          <button class="jr-action alt" id="urlCopy">
-            COPY RESULT
-          </button>
-
-        </div>
-
-        <div class="jr-result" id="urlOut">
-          RESULT...
-        </div>
-
-      `;
-
-
-      const input =
-        content.querySelector("#urlInput");
-
-      const output =
-        content.querySelector("#urlOut");
-
-
-      content.querySelector("#urlEncode").onclick =
-        function () {
-
-          try {
-
-            output.textContent =
-              encodeURIComponent(input.value);
-
-          } catch (error) {
-
-            output.textContent =
-              "COULD NOT ENCODE.";
-
-          }
-
-        };
-
-
-      content.querySelector("#urlDecode").onclick =
-        function () {
-
-          try {
-
-            output.textContent =
-              decodeURIComponent(input.value);
-
-          } catch (error) {
-
-            output.textContent =
-              "INVALID URL ENCODING.";
-
-          }
-
-        };
-
-
-      content.querySelector("#urlCopy").onclick =
-        function () {
-
-          copyText(output.textContent);
-
-           
-        };
-
-    }
-
-
-    /* =======================================
-       TIME LAB
-       ======================================= */
-
-    if (type === "time") {
-
-      content.innerHTML = `
-
-        <h3>05 // TIME LAB</h3>
-
-        <p>
-          Generate the current Unix timestamp or convert one.
-        </p>
-
-        <div class="jr-result" id="currentUnix">
-          Loading...
-        </div>
-
-        <div class="jr-actions">
-
-          <button class="jr-action" id="refreshUnix">
-            CURRENT TIMESTAMP
-          </button>
-
-          <button class="jr-action alt" id="copyUnix">
-            COPY
-          </button>
-
-        </div>
-
-        <input
-          id="timestampInput"
-          placeholder="Enter Unix timestamp..."
-        >
-
-        <div class="jr-actions">
-
-          <button class="jr-action" id="convertUnix">
-            CONVERT TO DATE
-          </button>
-
-        </div>
-
-        <div class="jr-result" id="dateOut">
-          RESULT...
-        </div>
-
-      `;
-
-
-      const current =
-        content.querySelector("#currentUnix");
-
-      const input =
-        content.querySelector("#timestampInput");
-
-      const dateOut =
-        content.querySelector("#dateOut");
-
-
-      function updateUnix() {
-
-        current.textContent =
-          Math.floor(Date.now() / 1000);
+        return;
 
       }
 
+      /* QR LAB */
 
-      updateUnix();
+      if (type === "qr") {
 
+        modalTitle.textContent =
+          "02 // QR LAB";
 
-      content.querySelector("#refreshUnix").onclick =
-        updateUnix;
+        content.innerHTML = `
 
+          <p>
+            Generate a QR code from text or a URL.
+          </p>
 
-      content.querySelector("#copyUnix").onclick =
-        function () {
+          ${inputField(
+            "TEXT / URL",
+            "jrQRV42",
+            "https://example.com"
+          )}
 
-          copyText(current.textContent);
+          <div class="jr-actions-v42">
 
-        };
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrMakeQRV42"
+            >
+              GENERATE QR
+            </button>
 
+          </div>
 
-      content.querySelector("#convertUnix").onclick =
-        function () {
+          <div
+            class="jr-qr-v42"
+            id="jrQROutV42"
+          ></div>
 
-          const value =
-            Number(input.value);
+        `;
 
-          if (!Number.isFinite(value)) {
+        document
+          .getElementById("jrMakeQRV42")
+          .onclick = function() {
 
-            dateOut.textContent =
-              "INVALID TIMESTAMP.";
+            const value =
+              document
+                .getElementById("jrQRV42")
+                .value
+                .trim();
 
-            return;
+            if (!value) return;
 
-          }
+            document.getElementById(
+              "jrQROutV42"
+            ).innerHTML = `
 
-          const date =
-            new Date(
-              value < 10000000000
-                ? value * 1000
-                : value
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(value)}"
+                alt="QR Code"
+              >
+
+            `;
+
+          };
+
+        return;
+
+      }
+
+      /* DEV LAB */
+
+      if (type === "dev") {
+
+        modalTitle.textContent =
+          "03 // DEV LAB";
+
+        content.innerHTML = `
+
+          <p>
+            JSON formatter, minifier and Base64 tools.
+          </p>
+
+          ${inputField(
+            "JSON",
+            "jrJSONV42",
+            '{"name":"JOKER RKS"}',
+            true
+          )}
+
+          <div class="jr-actions-v42">
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrFormatV42"
+            >
+              FORMAT JSON
+            </button>
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrMinifyV42"
+            >
+              MINIFY JSON
+            </button>
+
+          </div>
+
+          ${inputField(
+            "BASE64 TEXT",
+            "jrBaseV42",
+            "Hello JOKER RKS"
+          )}
+
+          <div class="jr-actions-v42">
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrEncodeV42"
+            >
+              ENCODE
+            </button>
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrDecodeV42"
+            >
+              DECODE
+            </button>
+
+          </div>
+
+          <div
+            class="jr-result-v42"
+            id="jrDevResultV42"
+          >
+            READY
+          </div>
+
+        `;
+
+        const json =
+          document.getElementById(
+            "jrJSONV42"
+          );
+
+        const result =
+          document.getElementById(
+            "jrDevResultV42"
+          );
+
+        document
+          .getElementById("jrFormatV42")
+          .onclick = function() {
+
+            try {
+
+              json.value =
+                JSON.stringify(
+                  JSON.parse(json.value),
+                  null,
+                  2
+                );
+
+              result.textContent =
+                "JSON FORMATTED ✓";
+
+            } catch(e) {
+
+              result.textContent =
+                "INVALID JSON";
+
+            }
+
+          };
+
+        document
+          .getElementById("jrMinifyV42")
+          .onclick = function() {
+
+            try {
+
+              json.value =
+                JSON.stringify(
+                  JSON.parse(json.value)
+                );
+
+              result.textContent =
+                "JSON MINIFIED ✓";
+
+            } catch(e) {
+
+              result.textContent =
+                "INVALID JSON";
+
+            }
+
+          };
+
+        document
+          .getElementById("jrEncodeV42")
+          .onclick = function() {
+
+            try {
+
+              result.textContent =
+                btoa(
+                  unescape(
+                    encodeURIComponent(
+                      document
+                        .getElementById("jrBaseV42")
+                        .value
+                    )
+                  )
+                );
+
+            } catch(e) {
+
+              result.textContent =
+                "ENCODE FAILED";
+
+            }
+
+          };
+
+        document
+          .getElementById("jrDecodeV42")
+          .onclick = function() {
+
+            try {
+
+              result.textContent =
+                decodeURIComponent(
+                  escape(
+                    atob(
+                      document
+                        .getElementById("jrBaseV42")
+                        .value
+                    )
+                  )
+                );
+
+            } catch(e) {
+
+              result.textContent =
+                "INVALID BASE64";
+
+            }
+
+          };
+
+        return;
+
+      }
+
+      /* URL LAB */
+
+      if (type === "url") {
+
+        modalTitle.textContent =
+          "04 // URL LAB";
+
+        content.innerHTML = `
+
+          <p>
+            Encode and decode URL text.
+          </p>
+
+          ${inputField(
+            "URL / TEXT",
+            "jrURLV42",
+            "https://example.com/hello world"
+          )}
+
+          <div class="jr-actions-v42">
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrURLEncodeV42"
+            >
+              ENCODE
+            </button>
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrURLDecodeV42"
+            >
+              DECODE
+            </button>
+
+          </div>
+
+          <div
+            class="jr-result-v42"
+            id="jrURLResultV42"
+          ></div>
+
+        `;
+
+        const input =
+          document.getElementById(
+            "jrURLV42"
+          );
+
+        const result =
+          document.getElementById(
+            "jrURLResultV42"
+          );
+
+        document
+          .getElementById("jrURLEncodeV42")
+          .onclick = function() {
+
+            result.textContent =
+              encodeURIComponent(
+                input.value
+              );
+
+          };
+
+        document
+          .getElementById("jrURLDecodeV42")
+          .onclick = function() {
+
+            try {
+
+              result.textContent =
+                decodeURIComponent(
+                  input.value
+                );
+
+            } catch(e) {
+
+              result.textContent =
+                "INVALID ENCODED URL";
+
+            }
+
+          };
+
+        return;
+
+                                        }
+             /* TIME LAB */
+
+      if (type === "time") {
+
+        modalTitle.textContent =
+          "05 // TIME LAB";
+
+        content.innerHTML = `
+
+          <p>
+            Current browser time and Unix timestamp.
+          </p>
+
+          <div
+            class="jr-result-v42"
+            id="jrTimeResultV42"
+          ></div>
+
+          <div class="jr-actions-v42">
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrTimeRefreshV42"
+            >
+              REFRESH
+            </button>
+
+          </div>
+
+        `;
+
+        function updateTime() {
+
+          const now =
+            new Date();
+
+          document.getElementById(
+            "jrTimeResultV42"
+          ).textContent =
+
+            "LOCAL:\n" +
+            now.toString() +
+
+            "\n\nISO:\n" +
+            now.toISOString() +
+
+            "\n\nUNIX:\n" +
+            Math.floor(
+              now.getTime() / 1000
             );
 
-          dateOut.textContent =
-            date.toString();
-           
-        };
+        }
 
-    }
+        updateTime();
 
+        document
+          .getElementById("jrTimeRefreshV42")
+          .onclick = updateTime;
 
-    /* =======================================
-       CALCULATOR LAB
-       ======================================= */
+        return;
 
-    if (type === "calc") {
+      }
 
-      content.innerHTML = `
+      /* CALC LAB */
 
-        <h3>06 // CALC LAB</h3>
+      if (type === "calc") {
 
-        <p>
-          Quick mathematical calculations.
-        </p>
+        modalTitle.textContent =
+          "06 // CALC LAB";
 
-        <input
-          id="calcInput"
-          placeholder="Example: 25 * 4 + 10"
-          inputmode="decimal"
-        >
+        content.innerHTML = `
 
-        <div class="jr-actions">
+          <p>
+            Basic calculator.
+          </p>
 
-          <button class="jr-action" id="calculate">
-            CALCULATE
-          </button>
+          ${inputField(
+            "EXPRESSION",
+            "jrCalcV42",
+            "12 * 8 + 5"
+          )}
 
-          <button class="jr-action alt" id="copyCalc">
-            COPY RESULT
-          </button>
+          <div class="jr-actions-v42">
 
-        </div>
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrCalcRunV42"
+            >
+              CALCULATE
+            </button>
 
-        <div class="jr-result" id="calcOut">
-          RESULT...
-        </div>
+          </div>
 
-      `;
+          <div
+            class="jr-result-v42"
+            id="jrCalcResultV42"
+          ></div>
 
+        `;
 
-      const input =
-        content.querySelector("#calcInput");
+        document
+          .getElementById("jrCalcRunV42")
+          .onclick = function() {
 
-      const output =
-        content.querySelector("#calcOut");
-
-
-      content.querySelector("#calculate").onclick =
-        function () {
-
-          const expression =
-            input.value.trim();
-
-          if (!expression) {
-
-            output.textContent =
-              "ENTER A CALCULATION.";
-
-            return;
-
-          }
-
-          /*
-           * Only basic mathematical characters
-           * are accepted.
-           */
-
-          if (!/^[0-9+\\-*/().%\\s]+$/.test(expression)) {
-
-            output.textContent =
-              "ONLY BASIC MATH OPERATORS ARE ALLOWED.";
-
-            return;
-
-          }
-
-          try {
+            const expression =
+              document
+                .getElementById("jrCalcV42")
+                .value
+                .trim();
 
             const result =
-              Function(
-                '"use strict"; return (' +
-                expression +
-                ')'
-              )();
+              document.getElementById(
+                "jrCalcResultV42"
+              );
 
             if (
-              typeof result !== "number" ||
-              !Number.isFinite(result)
+              !/^[0-9+\-*/().%\s]+$/.test(
+                expression
+              )
             ) {
 
-              output.textContent =
-                "INVALID CALCULATION.";
+              result.textContent =
+                "ONLY BASIC MATH IS ALLOWED";
 
               return;
 
             }
 
-            output.textContent =
-              String(result);
+            try {
 
-          } catch (error) {
+              result.textContent =
+                String(
+                  Function(
+                    '"use strict"; return (' +
+                    expression +
+                    ')'
+                  )()
+                );
 
-            output.textContent =
-              "INVALID CALCULATION.";
+            } catch(e) {
 
-          }
+              result.textContent =
+                "INVALID CALCULATION";
 
-        };
+            }
 
+          };
 
-      content.querySelector("#copyCalc").onclick =
-        function () {
+        return;
 
-          copyText(output.textContent);
-           
-        };
+      }
 
-    }
+      /* CASE LAB */
 
+      if (type === "case") {
 
-    /* =======================================
-       CASE LAB
-       ======================================= */
+        modalTitle.textContent =
+          "07 // CASE LAB";
 
-    if (type === "case") {
+        content.innerHTML = `
 
-      content.innerHTML = `
+          <p>
+            Convert text into different cases.
+          </p>
 
-        <h3>07 // CASE LAB</h3>
+          ${inputField(
+            "TEXT",
+            "jrCaseV42",
+            "hello joker rks",
+            true
+          )}
 
-        <p>
-          Convert text into different letter cases.
-        </p>
+          <div class="jr-actions-v42">
 
-        <textarea
-          id="caseInput"
-          placeholder="Type your text..."
-        ></textarea>
-
-        <div class="jr-actions">
-
-          <button class="jr-action" id="caseUpper">
-            UPPERCASE
-          </button>
-
-          <button class="jr-action" id="caseLower">
-            lowercase
-          </button>
-
-          <button class="jr-action" id="caseTitle">
-            Title Case
-          </button>
-
-          <button class="jr-action alt" id="caseCopy">
-            COPY
-          </button>
-
-        </div>
-
-        <div class="jr-result" id="caseOut">
-          RESULT...
-        </div>
-
-      `;
-
-
-      const input =
-        content.querySelector("#caseInput");
-
-      const output =
-        content.querySelector("#caseOut");
-
-
-      content.querySelector("#caseUpper").onclick =
-        function () {
-
-          output.textContent =
-            input.value.toUpperCase();
-
-        };
-
-
-      content.querySelector("#caseLower").onclick =
-        function () {
-
-          output.textContent =
-            input.value.toLowerCase();
-
-        };
-
-
-      content.querySelector("#caseTitle").onclick =
-        function () {
-
-          output.textContent =
-            titleCase(input.value);
-
-        };
-
-
-      content.querySelector("#caseCopy").onclick =
-        function () {
-
-          copyText(output.textContent);
-           
-        };
-
-    }
-
-
-    /* =======================================
-       IMAGE LAB
-       ======================================= */
-
-    if (type === "image") {
-
-      content.innerHTML = `
-
-        <h3>08 // IMAGE LAB</h3>
-
-        <p>
-          Preview an image using a direct image URL.
-        </p>
-
-        <input
-          id="imageInput"
-          placeholder="https://example.com/image.jpg"
-        >
-
-        <div class="jr-actions">
-
-          <button class="jr-action" id="previewImage">
-            PREVIEW IMAGE
-          </button>
-
-          <button class="jr-action alt" id="clearImage">
-            CLEAR
-          </button>
-
-        </div>
-
-        <div class="jr-preview" id="imageOut"></div>
-
-      `;
-
-
-      const input =
-        content.querySelector("#imageInput");
-
-      const output =
-        content.querySelector("#imageOut");
-
-
-      content.querySelector("#previewImage").onclick =
-        function () {
-
-          const value =
-            input.value.trim();
-
-          if (!value) {
-
-            output.textContent =
-              "ENTER AN IMAGE URL.";
-
-            return;
-
-          }
-
-          output.innerHTML = `
-            <img
-              src="${value.replace(/"/g, "&quot;")}"
-              alt="Image preview"
-              onerror="this.style.display='none';this.parentElement.innerHTML='IMAGE COULD NOT BE LOADED.';"
+            <button
+              type="button"
+              class="jr-action-v42"
+              data-case-v42="upper"
             >
-          `;
+              UPPER
+            </button>
 
-        };
+            <button
+              type="button"
+              class="jr-action-v42"
+              data-case-v42="lower"
+            >
+              LOWER
+            </button>
 
+            <button
+              type="button"
+              class="jr-action-v42"
+              data-case-v42="title"
+            >
+              TITLE
+            </button>
 
-      content.querySelector("#clearImage").onclick =
-        function () {
+          </div>
 
-          input.value = "";
-          output.innerHTML = "";
-           
-        };
+        `;
+
+        content.addEventListener(
+          "click",
+          function(e) {
+
+            const button =
+              e.target.closest(
+                "[data-case-v42]"
+              );
+
+            if (!button) return;
+
+            const text =
+              document.getElementById(
+                "jrCaseV42"
+              );
+
+            if (
+              button.dataset.caseV42 ===
+              "upper"
+            ) {
+
+              text.value =
+                text.value.toUpperCase();
+
+            }
+
+            if (
+              button.dataset.caseV42 ===
+              "lower"
+            ) {
+
+              text.value =
+                text.value.toLowerCase();
+
+            }
+
+            if (
+              button.dataset.caseV42 ===
+              "title"
+            ) {
+
+              text.value =
+                text.value
+                  .toLowerCase()
+                  .replace(
+                    /\b\w/g,
+                    function(x) {
+                      return x.toUpperCase();
+                    }
+                  );
+
+            }
+
+          }
+        );
+
+        return;
+
+      }
+
+      /* IMAGE LAB */
+
+      if (type === "image") {
+
+        modalTitle.textContent =
+          "08 // IMAGE LAB";
+
+        content.innerHTML = `
+
+          <p>
+            Preview an image from a direct URL.
+          </p>
+
+          ${inputField(
+            "IMAGE URL",
+            "jrImageV42",
+            "https://example.com/image.jpg"
+          )}
+
+          <div class="jr-actions-v42">
+
+            <button
+              type="button"
+              class="jr-action-v42"
+              id="jrImagePreviewV42"
+            >
+              PREVIEW IMAGE
+            </button>
+
+          </div>
+
+          <div
+            id="jrImageOutputV42"
+          ></div>
+
+        `;
+
+        document
+          .getElementById(
+            "jrImagePreviewV42"
+          )
+          .onclick = function() {
+
+            const url =
+              document
+                .getElementById(
+                  "jrImageV42"
+                )
+                .value
+                .trim();
+
+            const output =
+              document.getElementById(
+                "jrImageOutputV42"
+              );
+
+            if (!url) {
+
+              output.innerHTML =
+                "<p>ENTER IMAGE URL</p>";
+
+              return;
+
+            }
+
+            const image =
+              document.createElement("img");
+
+            image.src = url;
+            image.alt = "Image Preview";
+
+            image.style.maxWidth = "100%";
+            image.style.maxHeight = "400px";
+            image.style.borderRadius = "10px";
+
+            image.onerror = function() {
+
+              output.innerHTML =
+                "<p>IMAGE COULD NOT BE LOADED.</p>";
+
+            };
+
+            output.innerHTML = "";
+
+            output.appendChild(image);
+
+          };
+
+        return;
+
+      }
 
     }
 
-  }
+    /* =========================
+       TOOL BUTTON CLICK
+       ========================= */
 
+    area.addEventListener(
+      "click",
+      function(e) {
 
-  /* =========================================
-     TOOL BUTTON EVENTS
-     ========================================= */
+        const button =
+          e.target.closest(
+            ".jr-tool-btn-v42"
+          );
 
-  area.addEventListener("click", function (e) {
+        if (!button) return;
 
-    const button =
-      e.target.closest(".jr-tool-btn");
+        e.preventDefault();
+        e.stopPropagation();
 
-    if (!button) return;
+        openTool(
+          button.dataset.tool
+        );
 
-    open(button.dataset.tool);
+      }
+    );
 
-  });
+    /* =========================
+       MUSIC BUTTON
+       ========================= */
 
-/* =================================
-   JOKER RKS // MUSIC TOGGLE
-   ================================= */
+    function setupMusicButton() {
 
-(function () {
-  const music = document.getElementById("welcomeMusic");
+      if (
+        document.getElementById(
+          "jrMusicToggleV42"
+        )
+      ) {
+        return;
+      }
 
-  if (!music) return;
+      const music =
+        document.getElementById(
+          "welcomeMusic"
+        );
 
-  const musicBtn = document.createElement("button");
+      if (!music) {
 
-  musicBtn.id = "jrMusicToggle";
-  musicBtn.type = "button";
-  musicBtn.innerHTML = music.paused ? "🔇" : "🔊";
-  musicBtn.title = music.paused
-    ? "Turn music ON"
-    : "Turn music OFF";
+        console.warn(
+          "JOKER RKS: welcomeMusic not found"
+        );
 
-  musicBtn.style.cssText = `
-    position:fixed;
-    right:18px;
-    bottom:18px;
-    width:48px;
-    height:48px;
-    z-index:999998;
-    border:1px solid rgba(255,255,255,.35);
-    border-radius:50%;
-    background:rgba(0,0,0,.75);
-    color:#fff;
-    font-size:20px;
-    cursor:pointer;
-    backdrop-filter:blur(10px);
-    box-shadow:0 0 20px rgba(255,255,255,.12);
-    transition:.25s ease;
-  `;
+        return;
 
-  document.body.appendChild(musicBtn);
+      }
 
-  function updateMusicButton() {
-    musicBtn.innerHTML = music.paused ? "🔇" : "🔊";
-    musicBtn.title = music.paused
-      ? "Turn music ON"
-      : "Turn music OFF";
-  }
+      const button =
+        document.createElement("button");
 
-  musicBtn.addEventListener("click", function () {
+      button.id =
+        "jrMusicToggleV42";
 
-    if (music.paused) {
+      button.type =
+        "button";
 
-      music.play()
-        .then(function () {
-          updateMusicButton();
-        })
-        .catch(function () {
-          updateMusicButton();
-        });
+      button.setAttribute(
+        "aria-label",
+        "Toggle music"
+      );
 
-    } else {
+      function updateMusicIcon() {
 
-      music.pause();
-      updateMusicButton();
+        button.textContent =
+          music.paused
+            ? "🔇"
+            : "🔊";
+
+        button.title =
+          music.paused
+            ? "Music OFF — tap to play"
+            : "Music ON — tap to mute";
+
+      }
+
+      button.addEventListener(
+        "click",
+        function() {
+
+          if (music.paused) {
+
+            const playPromise =
+              music.play();
+
+            if (
+              playPromise &&
+              typeof playPromise.catch ===
+              "function"
+            ) {
+
+              playPromise.catch(
+                function() {}
+              );
+
+            }
+
+          } else {
+
+            music.pause();
+
+          }
+
+        }
+      );
+
+      music.addEventListener(
+        "play",
+        updateMusicIcon
+      );
+
+      music.addEventListener(
+        "pause",
+        updateMusicIcon
+      );
+
+      document.body.appendChild(
+        button
+      );
+
+      updateMusicIcon();
 
     }
 
-  });
+    setupMusicButton();
 
-  music.addEventListener("play", updateMusicButton);
-  music.addEventListener("pause", updateMusicButton);
+    console.log(
+      "JOKER RKS TOOLS v4.2 LOADED ✓"
+    );
 
-})();
+  }
+
+  /* =========================
+     START SAFELY
+     ========================= */
+
+  if (
+    document.readyState ===
+    "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      initJokerTools,
+      { once: true }
+    );
+
+  } else {
+
+    initJokerTools();
+
+  }
+
 })();
