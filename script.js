@@ -390,3 +390,241 @@ if (particleBox) {
     }
 
 })();
+/* =========================================
+   JOKER RKS ORDER SYSTEM - PHASE 1
+========================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const modal = document.getElementById("orderModal");
+  const closeBtn = document.getElementById("closeOrder");
+  const orderForm = document.getElementById("orderForm");
+  const productSelect = document.getElementById("orderProduct");
+  const message = document.getElementById("orderMessage");
+
+  const orderButtons = document.querySelectorAll(".order-btn");
+
+  if (!modal || !orderForm || !productSelect) return;
+
+
+  /* PRODUCT SELECT */
+  orderButtons.forEach(button => {
+
+    const product = button.dataset.product;
+
+    if (!product) return;
+
+    const option = document.createElement("option");
+
+    option.value = product;
+    option.textContent = product;
+
+    productSelect.appendChild(option);
+
+
+    /* OPEN MODAL */
+
+    button.addEventListener("click", () => {
+
+      productSelect.value = product;
+
+      modal.classList.add("active");
+
+      document.body.style.overflow = "hidden";
+
+    });
+
+  });
+
+
+  /* CLOSE MODAL */
+
+  function closeOrderModal() {
+
+    modal.classList.remove("active");
+
+    document.body.style.overflow = "";
+
+  }
+
+
+  closeBtn?.addEventListener("click", closeOrderModal);
+
+
+  modal.addEventListener("click", event => {
+
+    if (event.target === modal) {
+      closeOrderModal();
+    }
+
+  });
+
+
+  /* ESC KEY */
+
+  document.addEventListener("keydown", event => {
+
+    if (event.key === "Escape" && modal.classList.contains("active")) {
+      closeOrderModal();
+    }
+
+  });
+
+
+  /* ORDER SUBMIT */
+
+  orderForm.addEventListener("submit", event => {
+
+    event.preventDefault();
+
+    const fullName =
+      document.getElementById("fullName").value.trim();
+
+    const fatherName =
+      document.getElementById("fatherName").value.trim();
+
+    const phone =
+      document.getElementById("phone").value.trim();
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const product =
+      productSelect.value;
+
+    const purpose =
+      document.getElementById("purpose").value.trim();
+
+    const consent =
+      document.getElementById("orderConsent").checked;
+
+
+    /* VALIDATION */
+
+    if (
+      !product ||
+      !fullName ||
+      !fatherName ||
+      !phone ||
+      !email ||
+      !purpose ||
+      !consent
+    ) {
+
+      message.textContent =
+        "⚠️ Please complete all required fields.";
+
+      message.classList.add("show");
+
+      return;
+    }
+
+
+    /* EMAIL CHECK */
+
+    const emailPattern =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+
+      message.textContent =
+        "⚠️ Please enter a valid email address.";
+
+      message.classList.add("show");
+
+      return;
+    }
+
+
+    /* PHONE CHECK */
+
+    const phoneDigits =
+      phone.replace(/\D/g, "");
+
+    if (phoneDigits.length < 10) {
+
+      message.textContent =
+        "⚠️ Please enter a valid phone number.";
+
+      message.classList.add("show");
+
+      return;
+    }
+
+
+    /* GENERATE ORDER ID */
+
+    const random =
+      Math.floor(10000 + Math.random() * 90000);
+
+    const orderId =
+      "JRKS-" + random;
+
+
+    /* SHOW SUCCESS */
+
+    message.innerHTML = `
+      ✅ <strong>ORDER REQUEST CREATED</strong><br><br>
+
+      Order ID:
+      <strong>${orderId}</strong><br><br>
+
+      Product:
+      <strong>${product}</strong><br><br>
+
+      Your request has been recorded locally for this
+      frontend phase. WhatsApp notification and database
+      connection will be added in the next phase.
+    `;
+
+    message.classList.add("show");
+
+
+    /* TEMP LOCAL SAVE */
+
+    const orderData = {
+
+      orderId,
+      product,
+      fullName,
+      fatherName,
+      phone,
+      email,
+      purpose,
+
+      additionalDetails:
+        document
+          .getElementById("additionalDetails")
+          .value
+          .trim(),
+
+      createdAt:
+        new Date().toISOString()
+
+    };
+
+
+    const oldOrders =
+      JSON.parse(
+        localStorage.getItem("jrks_orders") || "[]"
+      );
+
+    oldOrders.push(orderData);
+
+    localStorage.setItem(
+      "jrks_orders",
+      JSON.stringify(oldOrders)
+    );
+
+
+    /* RESET FORM AFTER 2 SEC */
+
+    setTimeout(() => {
+
+      orderForm.reset();
+
+    }, 2000);
+
+  });
+
+});
