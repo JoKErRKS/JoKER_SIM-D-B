@@ -1858,7 +1858,7 @@
 
     if (!button) return;
 
-    openTool(button.dataset.tool);
+    open(button.dataset.tool);
 
   });
 
@@ -1973,5 +1973,74 @@
 
   });
 
+/* =================================
+   JOKER RKS // MUSIC TOGGLE
+   ================================= */
 
+(function () {
+  const music = document.getElementById("welcomeMusic");
+
+  if (!music) return;
+
+  const musicBtn = document.createElement("button");
+
+  musicBtn.id = "jrMusicToggle";
+  musicBtn.type = "button";
+  musicBtn.innerHTML = music.paused ? "🔇" : "🔊";
+  musicBtn.title = music.paused
+    ? "Turn music ON"
+    : "Turn music OFF";
+
+  musicBtn.style.cssText = `
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    width:48px;
+    height:48px;
+    z-index:999998;
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:50%;
+    background:rgba(0,0,0,.75);
+    color:#fff;
+    font-size:20px;
+    cursor:pointer;
+    backdrop-filter:blur(10px);
+    box-shadow:0 0 20px rgba(255,255,255,.12);
+    transition:.25s ease;
+  `;
+
+  document.body.appendChild(musicBtn);
+
+  function updateMusicButton() {
+    musicBtn.innerHTML = music.paused ? "🔇" : "🔊";
+    musicBtn.title = music.paused
+      ? "Turn music ON"
+      : "Turn music OFF";
+  }
+
+  musicBtn.addEventListener("click", function () {
+
+    if (music.paused) {
+
+      music.play()
+        .then(function () {
+          updateMusicButton();
+        })
+        .catch(function () {
+          updateMusicButton();
+        });
+
+    } else {
+
+      music.pause();
+      updateMusicButton();
+
+    }
+
+  });
+
+  music.addEventListener("play", updateMusicButton);
+  music.addEventListener("pause", updateMusicButton);
+
+})();
 })();
